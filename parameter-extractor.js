@@ -18,8 +18,8 @@ module.exports = {
 			// Extract parameters to key/value pairs
 			var extractedParams = paramString.match(/^([^\=]+)\=([^\=]+)$/);
 
-			if(extractedParams.length == 0) {
-				throw "Parameters not valid!";
+			if(extractedParams === null) {
+				throw new Error('Parameters not valid!');
 			}
 			// Save extracted parameters
 			actionParams[extractedParams[1]] = extractedParams[2];
