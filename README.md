@@ -16,7 +16,9 @@ nmp install
 ```
 
 Now you can start the NodeJS server:
-    node server
+```
+node server
+```
 
 If you want the server constantly running in the background, you can use [forever](https://www.npmjs.org/package/forever).
 
@@ -31,7 +33,9 @@ The Body field is used to tell the IFTTN server which plugin should be called. A
 
 ### Categories
 The categories are used for submitting parameters to the plugin. For example the Wake On Lan plugin uses 2 parameters, a broadcast address and a MAC address. Parameters (or categories) will be written as comma separated lists. The parameter itself as a key/value pair. For the WOL plugin this would look like:
-`broadcast=192.168.1.255,mac=00:00:00:00:00:00`
+```
+broadcast=192.168.1.255,mac=00:00:00:00:00:00
+```
 
 Values will be assigned by using the = sign, so you cannot use this as a value itself.
 
