@@ -22,7 +22,7 @@ module.exports = {
 			}
 		}
   },
-	execute: function(pluginName, params) {
+	execute: function(pluginName, params, callback) {
 		var finalParams = [];
 		
 		// Iterate through parameters
@@ -42,7 +42,7 @@ module.exports = {
 		console.log('\nExecuting plugin '+pluginName+' with params:');
 		console.log(finalParams);
 		console.log('\n');
-		this.pluginList[pluginName].run(finalParams);
+		this.pluginList[pluginName].run(finalParams, callback);
 	},
 	pluginExists: function(pluginName) {
 		return typeof this.pluginList[pluginName] !== 'undefined';

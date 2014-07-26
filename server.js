@@ -25,9 +25,24 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(xmlparser());
 
+var failure = function(status) {
+	
+	console.log('\nSending failure response:');
+	console.log('  >> Status Code: '+status
+	);
+	// TODO create xml by using xml2js
+	var xml = '<?xml version="1.0"?>\n<methodResponse><fault><value><struct><member><name>faultCode</name><value><int>'+status+'</int></value></member><member><name>faultString</name><value><string>Request was not successful.</string></value></member></struct></value></fault></methodResponse>';
+	
+	res.set({
+		'Content-Type': 'text/xml'
+	});
+	
+	res.send(200, xml);
+}
+
 var success = function(innerXML, res) {
 	
-	console.log('\nSending response:');
+	console.log('\nSending success response:');
 	console.dir(innerXML);
 	// TODO create xml by using xml2js
 	var xml = "<?xml version=\"1.0\"?>\n";
@@ -65,6 +80,7 @@ app.post('/xmlrpc.php', function(req, res, next){
 			
 			params = params[0];
 			
+			// TODO validate user credentials
 			var content = {
 				"user": params.param[1].value[0].string[0],
 				"pw":		params.param[2].value[0].string[0],
@@ -83,7 +99,14 @@ app.post('/xmlrpc.php', function(req, res, next){
 			
 			// See if we know this plugin and then execute it with the given parameters
 			if(pluginManager.pluginExists(action)){
-				pluginManager.execute(action, actionParams);
+				pluginManager.execute(action, actionParams, function(result){
+					if(result.success == true){
+						console.log('Plugin succeeded with output: '+result.output);
+						success('<string>200</string>', res);
+					} else {
+						failure(1337, res);
+					}
+				});
 			} else {
 				console.error('No plugin found for action '+action);
 				res.send(403, 'No plugin found for action '+action);

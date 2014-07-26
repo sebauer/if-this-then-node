@@ -1,6 +1,10 @@
 module.exports = {
-  run: function (params) {
+  run: function (params, callback) {
     // do whatever you want in this plugin
+		callback({
+			'success' : true,
+			'output'  : 'all good!'
+		});
   },
 	info: function() {
 		return 'IFTTN Sample Plugin Version 1.0';
