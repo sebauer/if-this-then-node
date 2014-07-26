@@ -22,27 +22,13 @@ module.exports = {
 			}
 		}
   },
-	execute: function(pluginName, params, callback) {
-		var finalParams = [];
-		
-		// Iterate through parameters
-		for(var i in params) {
-			
-			// Extract parameters to key/value pairs
-			var extractedParams = params[i].match(/^([^\=]+)\=([^\=]+)$/);
-			if(extractedParams.length == 0) {
-				throw "Parameters not valid!";
-			}
-			
-			// Save extracted parameters
-			finalParams[extractedParams[1]] = extractedParams[2];
-		}
+	execute: function(params, callback) {
 		
 		// Finally run our plugin with the parameters
-		console.log('\nExecuting plugin '+pluginName+' with params:');
-		console.log(finalParams);
+		console.log('\nExecuting plugin '+params.action+' with params:');
+		console.log(params.actionParams);
 		console.log('\n');
-		this.pluginList[pluginName].run(finalParams, callback);
+		this.pluginList[params.action].run(params.actionParams, callback);
 	},
 	pluginExists: function(pluginName) {
 		return typeof this.pluginList[pluginName] !== 'undefined';

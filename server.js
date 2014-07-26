@@ -81,7 +81,7 @@ app.post('/xmlrpc.php', function(req, res, next){
 			
 			// See if we know this plugin and then execute it with the given parameters
 			if(pluginManager.pluginExists(params.action)){
-				pluginManager.execute(params.action, params.actionParams, function(result){
+				pluginManager.execute(params, function(result){
 					if(result.success == true){
 						console.log('Plugin succeeded with output: '+result.output);
 						success('<string>200</string>', res);

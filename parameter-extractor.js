@@ -13,8 +13,18 @@ module.exports = {
 		
 		// Extract the parameters, faked as categories
 		for(var i in categories) {
-			actionParams[i] = categories[i].string[0];
+			var paramString = categories[i].string[0];
+			
+			// Extract parameters to key/value pairs
+			var extractedParams = paramString.match(/^([^\=]+)\=([^\=]+)$/);
+
+			if(extractedParams.length == 0) {
+				throw "Parameters not valid!";
+			}
+			// Save extracted parameters
+			actionParams[extractedParams[1]] = extractedParams[2];
 		}
+		
 		returnObj = {
 			'user': user,
 			'pw': pw,
