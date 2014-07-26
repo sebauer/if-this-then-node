@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>If-this-then-node by sebauer</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="without-description">
+        <h1>If-this-then-node</h1>
+        <p></p>
+        <p class="view"><a href="https://github.com/sebauer/if-this-then-node">View the Project on GitHub <small>sebauer/if-this-then-node</small></a></p>
+        <ul>
+          <li><a href="https://github.com/sebauer/if-this-then-node/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/sebauer/if-this-then-node/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/sebauer/if-this-then-node">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="ifttn---if-this-then-node" class="anchor" href="#ifttn---if-this-then-node"><span class="octicon octicon-link"></span></a>IFTTN - If This Then Node</h1>
+
+<p>IFTTN is a NodeJS based server which allows you to receive actions from <a href="http://www.ifttt.com">IFTTT</a>. It can be used to run on a Raspberry PI in your local network to use IFTTT for further home automation and other tasks.</p>
+
+<p>The idea is based on <a href="https://github.com/captn3m0/ifttt-webhook/">ifttt-webhook</a> which fakes a WordPress XML RPC API to execute webhooks from IFTTT as there is no custom interface at IFTTT which can be used for general purposes.</p>
+
+<p>IFTTN basically does nothing different: it fakes a WordPress XML RPC API. Using plugin you're able to implement your own custom actions.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>git clone IFTTN to wherever you want and run <a href="https://www.npmjs.org/">NMP</a> afterwards to install all dependencies:</p>
+
+<pre><code>git clone git@github.com:sebauer/if-this-then-node.git
+nmp install
+</code></pre>
+
+<p>Now you can start the NodeJS server:</p>
+
+<pre><code>node server
+</code></pre>
+
+<p>If you want the server constantly running in the background, you can use <a href="https://www.npmjs.org/package/forever">forever</a>.</p>
+
+<p>In IFTTT configure a new recipe with any trigger you like and WordPress as action channel. Configure the channel with the URL to your instance of IFTTN and the user credentials you set locally. By default this application runs on port 1337 and you might have to configure a port redirect in your router to make the instance of NodeJS accessible from the internet.</p>
+
+<p>For the WordPress action in IFTTT basically only 2 fields are required by this plugin, all other fields can be set to anything you whish:</p>
+
+<ul>
+<li>Body</li>
+<li>Categories</li>
+</ul><h3>
+<a name="body" class="anchor" href="#body"><span class="octicon octicon-link"></span></a>Body</h3>
+
+<p>The Body field is used to tell the IFTTN server which plugin should be called. A list of available plugins can be seen during the startup of IFTTN. Just use that name as the post body.</p>
+
+<h3>
+<a name="categories" class="anchor" href="#categories"><span class="octicon octicon-link"></span></a>Categories</h3>
+
+<p>The categories are used for submitting parameters to the plugin. For example the Wake On Lan plugin uses 2 parameters, a broadcast address and a MAC address. Parameters (or categories) will be written as comma separated lists. The parameter itself as a key/value pair. For the WOL plugin this would look like:</p>
+
+<pre><code>broadcast=192.168.1.255,mac=00:00:00:00:00:00
+</code></pre>
+
+<p>Values will be assigned by using the = sign, so you cannot use this as a value itself.</p>
+
+<p>Now the action should be all set up and you're able to trigger it.</p>
+
+<h2>
+<a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Plugins</h2>
+
+<p>Plugins are used for implementing new commands or actions into IFTTN. Just have a look at the <a href="https://github.com/sebauer/if-this-then-node/blob/master/plugins/sample-plugin.js">sample plugin</a> inside the plugins-directory, it should be pretty self-explaining. The most important thing is that EVERY plugin must at least implement the functions info() and run(params, callback).</p>
+
+<p>The "params" variable holds all parameters from IFTTT as an object. Using the example of our WOL-plugin this object would look like:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="p">{</span>
+    <span class="s1">'broadcast'</span><span class="o">:</span> <span class="s1">'192.168.1.255'</span><span class="p">,</span>
+    <span class="s1">'mac'</span><span class="o">:</span> <span class="s1">'00:00:00:00:00:00'</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The callback parameter holds the callback function executed from IFTTN. It expects an result object as parameter:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="p">{</span>
+    <span class="s1">'success'</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s1">'output'</span><span class="o">:</span> <span class="s1">'your output text here'</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Please note, that you MUST call the callback in your plugin as IFTTN would cannot send a response back to IFTTT. This would make IFTTT wait for a response until a timeout is reached and might result in your recipe being disabled after several failures.</p>
+
+<h3>
+<a name="available-plugins" class="anchor" href="#available-plugins"><span class="octicon octicon-link"></span></a>Available plugins</h3>
+
+<h4>
+<a name="wake-on-lan" class="anchor" href="#wake-on-lan"><span class="octicon octicon-link"></span></a>Wake On Lan</h4>
+
+<p>This plugin can be used to wake up a PC which supports Wake On Lan. This plugin depends on "wakeonlan". You might also use etherwake, but that needs to be implemented, yet.</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/sebauer">sebauer</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
