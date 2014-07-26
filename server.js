@@ -27,7 +27,7 @@ console.log('Searching for actions..\n');
 
 var success = function(innerXML, res) {
 	
-	console.log('Sending response:');
+	console.log('\nSending response:');
 	console.dir(innerXML);
 	// TODO create xml by using xml2js
 	var xml = "<?xml version=\"1.0\"?>\n";
@@ -41,13 +41,17 @@ var success = function(innerXML, res) {
 }
 
 app.post('/xmlrpc.php', function(req, res, next){
-	console.log('POST request received');
+	console.log('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - \nPOST request received');
 	console.log(req.rawBody);
 	console.dir(req.body);
 	
+	var methodName = req.body.methodcall.methodname[0];
+	
+	console.log('\nMethod Name: '+methodName);
+	
 	var xmlContent = req.body;
 
-	switch(req.body.methodcall.methodname) {
+	switch(methodName) {
 		case 'mt.supportedMethods':
 			success('metaWeblog.getRecentPosts', res);
 			break;
@@ -58,6 +62,10 @@ app.post('/xmlrpc.php', function(req, res, next){
 			success('<array><data></data></array>');
 			break;
 		case 'metaWeblog.newPost':
+			break;
+		default:
+			console.log('Unknown request');
+			res.send(403,'Unknown reqest');
 			break;
 	}
 
