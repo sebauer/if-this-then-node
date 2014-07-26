@@ -11,9 +11,8 @@ IFTTN basically does nothing different: it fakes a WordPress XML RPC API. Using 
 
 git clone IFTTN to wherever you want and run [NMP](https://www.npmjs.org/) afterwards to install all dependencies:
 
-``git clone git@github.com:sebauer/if-this-then-node.git
-
-nmp install``
+	git clone git@github.com:sebauer/if-this-then-node.git
+	nmp install
 
 Now you can start the NodeJS server:
 ``node server``
@@ -41,16 +40,16 @@ Now the action should be all set up and you're able to trigger it.
 Plugins are used for implementing new commands or actions into IFTTN. Just have a look at the [sample plugin](https://github.com/sebauer/if-this-then-node/blob/master/plugins/sample-plugin.js) inside the plugins-directory, it should be pretty self-explaining. The most important thing is that EVERY plugin must at least implement the functions info() and run(params, callback).
 
 The "params" variable holds all parameters from IFTTT as an object. Using the example of our WOL-plugin this object would look like:
-``{
-  'broadcast': '192.168.1.255',
-	'mac': '00:00:00:00:00:00'
-}``
+	{
+  	'broadcast': '192.168.1.255',
+		'mac': '00:00:00:00:00:00'
+	}
 
 The callback parameter holds the callback function executed from IFTTN. It expects an result object as parameter:
-``{
-	'success': true,
-	'output': 'your output text here'
-}``
+	{
+		'success': true,
+		'output': 'your output text here'
+	}
 
 Please note, that you MUST call the callback in your plugin as IFTTN would cannot send a response back to IFTTT. This would make IFTTT wait for a response until a timeout is reached and might result in your recipe being disabled after several failures.
 
