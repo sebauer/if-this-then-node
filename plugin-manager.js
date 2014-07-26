@@ -24,6 +24,7 @@ module.exports = {
   },
 	execute: function(pluginName, params) {
 		console.log('Executing plugin '+pluginName);
+		console.log(params);
 		this.pluginList[pluginName].run(params);
 	},
 	pluginExists: function(pluginName) {
