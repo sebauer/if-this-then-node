@@ -23,7 +23,6 @@ module.exports = {
 		}
   },
 	execute: function(params, callback) {
-		
 		// Finally run our plugin with the parameters
 		console.log('\nExecuting plugin '+params.action+' with params:');
 		console.log(params.actionParams);
