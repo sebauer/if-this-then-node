@@ -42,7 +42,9 @@ var success = function(innerXML, res) {
 
 app.post('/xmlrpc.php', function(req, res, next){
 	console.log('POST request received');
-	console.log(req.body);
+	console.dir(req.body);
+	
+	var xmlContent = req.body;
 
 	switch(req.body.methodname) {
 		case 'mt.supportedMethods':
@@ -53,6 +55,8 @@ app.post('/xmlrpc.php', function(req, res, next){
 			//send a blank blog response
 			//this also makes sure that the channel is never triggered
 			success('<array><data></data></array>');
+			break;
+		case 'metaWeblog.newPost':
 			break;
 	}
 
