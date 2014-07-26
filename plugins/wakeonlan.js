@@ -1,11 +1,14 @@
 var exec = require('child_process').exec;
 
 module.exports = {
-  run: function (params) {
+  run: function (params, callbackFunction) {
 		var command = 'wakeonlan -i '+params.broadcast+' '+params.mac;
 		console.log(command);
-		exec(command, function callback(error, stdout, stderr){
-    	console.log(stdout);
+		exec(command, function (error, stdout, stderr){
+    	callbackFunction({
+				'success': true,
+				'output': stdout
+			});
 		});
   },
 	info: function() {
