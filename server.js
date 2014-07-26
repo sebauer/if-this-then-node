@@ -16,14 +16,14 @@ console.log('Credits for idea go to:\nhttps://github.com/captn3m0/ifttt-webhook\
 
 var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
+var pluginManager = require('./plugin-manager');
 var app = express();
+
+pluginManager.loadPlugins();
 
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(xmlparser());
-
-console.log('Searching for actions..\n');
-// TODO load actions
 
 var success = function(innerXML, res) {
 	
@@ -49,7 +49,7 @@ app.post('/xmlrpc.php', function(req, res, next){
 	
 	console.log('\nMethod Name: '+methodName);
 	
-	var xmlContent = req.body;
+	var params = req.body.methodcall.params;
 
 	switch(methodName) {
 		case 'mt.supportedMethods':
@@ -62,6 +62,25 @@ app.post('/xmlrpc.php', function(req, res, next){
 			success('<array><data></data></array>', res);
 			break;
 		case 'metaWeblog.newPost':
+			
+			params = params[0];
+			
+			var content = {
+				"user": params.param[1].value[0].string[0],
+				"pw":		params.param[2].value[0].string[0],
+				"content": params.param[3].value[0].struct[0].member
+			}
+			
+			console.log(content.content);
+			
+			var action = content.content[1].value[0].string[0];
+			var categories = content.content[2].value[0].array[0].data;
+			var actionParams = [];
+			
+			for(var i in categories) {
+				actionParams[i] = categories[i].value[0].string[0];
+			}
+			
 			break;
 		default:
 			console.log('Unknown request');
@@ -72,5 +91,5 @@ app.post('/xmlrpc.php', function(req, res, next){
 });
 
 var server = app.listen(1337, function() {
-  console.log('Listening on port %d', server.address().port);
+  console.log('\nListening on port %d', server.address().port);
 });
