@@ -42,6 +42,7 @@ var success = function(innerXML, res) {
 
 app.post('/xmlrpc.php', function(req, res, next){
 	console.log('POST request received');
+	console.log(req.rawBody);
 	console.dir(req.body);
 	
 	var xmlContent = req.body;
