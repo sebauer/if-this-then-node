@@ -36,8 +36,7 @@ module.exports = {
 			
 			// Save extracted parameters
 			finalParams[i] = [];
-			finalParams[i]['key'] = extractedParams[1];
-			finalParams[i]['value'] = extractedParams[2];
+			finalParams[i][extractedParams[1]] = extractedParams[2];
 		}
 		
 		// Finally run our plugin with the parameters
