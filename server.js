@@ -17,6 +17,7 @@ console.log('Credits for idea go to:\nhttps://github.com/captn3m0/ifttt-webhook\
 var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
 var pluginManager = require('./plugin-manager');
+var parameterExtractor = require('./parameter-extractor').extractParameters;
 var app = express();
 
 pluginManager.loadPlugins();
@@ -55,31 +56,6 @@ var success = function(innerXML, res) {
 	res.send(200, xml);
 }
 
-var extractParameters = function(params) {
-	var returnObj = {};
-	
-	var user = params.param[1].value[0].string[0];
-	var pw = params.param[2].value[0].string[0];
-	var content = params.param[3].value[0].struct[0].member;
-	
-	// Now extract the required information from the POST content
-	var action = content[1].value[0].string[0];
-	var categories = content[2].value[0].array[0].data[0].value;
-	var actionParams = [];
-	
-	// Extract the parameters, faked as categories
-	for(var i in categories) {
-		actionParams[i] = categories[i].string[0];
-	}
-	returnObj = {
-		'user': user,
-		'pw': pw,
-		'action': action,
-		'actionParams': actionParams
-	}
-	return returnObj;
-}
-
 app.post('/xmlrpc.php', function(req, res, next){
 	console.log('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - \nPOST request received');
 	console.log(req.rawBody);
@@ -101,7 +77,7 @@ app.post('/xmlrpc.php', function(req, res, next){
 			break;
 		case 'metaWeblog.newPost':
 			var params = req.body.methodcall.params;
-			params = extractParameters(params[0]);
+			params = parameterExtractor(params[0]);
 			
 			// See if we know this plugin and then execute it with the given parameters
 			if(pluginManager.pluginExists(params.action)){
