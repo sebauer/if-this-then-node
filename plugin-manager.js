@@ -21,7 +21,14 @@ module.exports = {
 				console.log('    >> '+this.pluginList[pluginName].info());
 			}
 		}
-  }
+  },
+	execute: function(pluginName, params) {
+		console.log('Executing plugin '+pluginName);
+		this.pluginList[pluginName].run(params);
+	},
+	pluginExists: function(pluginName) {
+		return typeof this.pluginList[pluginName] !== 'undefined';
+	}
 };
 
 // This private

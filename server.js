@@ -71,14 +71,22 @@ app.post('/xmlrpc.php', function(req, res, next){
 				"content": params.param[3].value[0].struct[0].member
 			}
 			
-			console.log(content.content);
-			
+			// Now extract the required information from the POST content
 			var action = content.content[1].value[0].string[0];
 			var categories = content.content[2].value[0].array[0].data;
 			var actionParams = [];
 			
+			// Extract the parameters, faked as categories
 			for(var i in categories) {
 				actionParams[i] = categories[i].value[0].string[0];
+			}
+			
+			// See if we know this plugin and then execute it with the given parameters
+			if(pluginManager.pluginExists(action)){
+				pluginManager.execute(action, actionParams);
+			} else {
+				console.error('No plugin found for action '+action);
+				res.send(403, 'No plugin found for action '+action);
 			}
 			
 			break;
