@@ -59,7 +59,7 @@ app.post('/xmlrpc.php', function(req, res, next){
 		case 'metaWeblog.getRecentPosts':
 			//send a blank blog response
 			//this also makes sure that the channel is never triggered
-			success('<array><data></data></array>');
+			success('<array><data></data></array>', res);
 			break;
 		case 'metaWeblog.newPost':
 			break;
