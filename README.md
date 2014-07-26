@@ -39,7 +39,7 @@ broadcast=192.168.1.255,mac=00:00:00:00:00:00
 
 Values will be assigned by using the = sign, so you cannot use this as a value itself.
 
-![IFTTT Configuration](sebauer.github.io/if-this-then-node/images/ifttt-screenshot.jpg)
+![IFTTT Configuration](://sebauer.github.io/if-this-then-node/images/ifttt-screenshot.jpg)
 
 Now the action should be all set up and you're able to trigger it.
 
