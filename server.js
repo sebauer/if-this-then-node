@@ -46,7 +46,7 @@ app.post('/xmlrpc.php', function(req, res, next){
 	
 	var xmlContent = req.body;
 
-	switch(req.body.methodname) {
+	switch(req.body.methodcall.methodname) {
 		case 'mt.supportedMethods':
 			success('metaWeblog.getRecentPosts', res);
 			break;
