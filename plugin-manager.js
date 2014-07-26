@@ -23,9 +23,28 @@ module.exports = {
 		}
   },
 	execute: function(pluginName, params) {
-		console.log('Executing plugin '+pluginName);
-		console.log(params);
-		this.pluginList[pluginName].run(params);
+		var finalParams = [];
+		
+		// Iterate through parameters
+		for(var i in params) {
+			
+			// Extract parameters to key/value pairs
+			var extractedParams = params[i].match(/^([^\=]+)\=([^\=]+)$/);
+			if(extractedParams.length == 0) {
+				throw "Parameters not valid!";
+			}
+			
+			// Save extracted parameters
+			finalParams[i] = [];
+			finalParams[i]['key'] = extractedParams[1];
+			finalParams[i]['value'] = extractedParams[2];
+		}
+		
+		// Finally run our plugin with the parameters
+		console.log('\nExecuting plugin '+pluginName+' with params:');
+		console.log(finalParams);
+		console.log('\n');
+		this.pluginList[pluginName].run(finalParams);
 	},
 	pluginExists: function(pluginName) {
 		return typeof this.pluginList[pluginName] !== 'undefined';

@@ -73,12 +73,12 @@ app.post('/xmlrpc.php', function(req, res, next){
 			
 			// Now extract the required information from the POST content
 			var action = content.content[1].value[0].string[0];
-			var categories = content.content[2].value[0].array[0].data;
+			var categories = content.content[2].value[0].array[0].data[0].value;
 			var actionParams = [];
 			
 			// Extract the parameters, faked as categories
 			for(var i in categories) {
-				actionParams[i] = categories[i].value[0].string[0];
+				actionParams[i] = categories[i].string[0];
 			}
 			
 			// See if we know this plugin and then execute it with the given parameters
