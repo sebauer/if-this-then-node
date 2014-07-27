@@ -77,6 +77,7 @@ Please note, that you MUST call the callback in your plugin as IFTTN would canno
 This plugin can be used to wake up a PC which supports Wake On Lan. This plugin depends on "wakeonlan". You might also use etherwake, but that needs to be implemented, yet. The following parameters need to be set in your action-configuration in IFTTT:
  * __broadcast__ - The broadcast address of the system you're trying to wake up. If it has the local IP 192.168.1.1 the broadcast address usually is 192.168.1.255
  * __mac__ - The MAC address of the interface which is beeing accessed written as 00:00:00:00:00:00
+ 
 ### Shutdown Windows from Linux
 Does exactly what it says it does. It shuts down a Windows PC from a Linux system. It requires a local user profile with administrative privileges on the Windows system and the ``samba-common`` package to be installed on the Linux system executing the command. On some systems you might need to first uninstall samba-common first and reinstall it before the net-command is available. Run:
 ```
