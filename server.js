@@ -18,6 +18,14 @@ var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
 var pluginManager = require('./plugin-manager');
 var parameterExtractor = require('./parameter-extractor').extractParameters;
+var config = require('./config.js').getConfig();
+
+// Validate that the user has set custom authentication details
+if(config.user == 'myuser' || config.pw == 'mypw') {
+	console.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');
+	return;
+}
+
 var app = express();
 
 pluginManager.loadPlugins();
@@ -78,6 +86,13 @@ app.post('/xmlrpc.php', function(req, res, next){
 		case 'metaWeblog.newPost':
 			var params = req.body.methodcall.params;
 			params = parameterExtractor(params[0]);
+			
+			// Validate user credenials
+			if(params.user != config.user || params.pw != config.pw) {
+				console.error('Authentication failed!');
+				failure(401, res);
+				break;
+			}
 			
 			// See if we know this plugin and then execute it with the given parameters
 			if(pluginManager.pluginExists(params.action)){
