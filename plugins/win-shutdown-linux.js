@@ -2,7 +2,7 @@ var exec = require('child_process').exec;
 
 module.exports = {
   run: function (params, callbackFunction) {
-		var command = 'net rpc -I '+params.ip+' -U '+params.user+'%'+params.pw;
+		var command = 'net rpc shutdown -I '+params.ip+' -U '+params.user+'%'+params.pw;
 		console.log(command);
 		exec(command, function (error, stdout, stderr){
 			if(error != null) {
