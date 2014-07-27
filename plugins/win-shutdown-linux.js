@@ -13,7 +13,7 @@ module.exports = {
 			} else {
 		  	callbackFunction({
 					'success': true,
-					'output': error+stdout+stderr
+					'output': stdout
 				});
 			}
 		});
