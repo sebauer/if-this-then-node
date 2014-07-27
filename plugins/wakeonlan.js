@@ -5,10 +5,10 @@ module.exports = {
 		var command = 'wakeonlan -i '+params.broadcast+' '+params.mac;
 		console.log(command);
 		exec(command, function (error, stdout, stderr){
-			if(error != '' || stderr != '') {
+			if(error != '') {
 				callbackFunction({
 					'success': false,
-					'output': stderr
+					'output': error
 				});
 			} else {
 		  	callbackFunction({
