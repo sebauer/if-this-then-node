@@ -16,9 +16,9 @@
   </head>
   <body>
     <div class="wrapper">
-      <header class="without-description">
+      <header>
         <h1>If-this-then-node</h1>
-        <p></p>
+        <p>An extendible NodeJS app to receive actions from IFTTT (If This Then That).</p>
         <p class="view"><a href="https://github.com/sebauer/if-this-then-node">View the Project on GitHub <small>sebauer/if-this-then-node</small></a></p>
         <ul>
           <li><a href="https://github.com/sebauer/if-this-then-node/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -36,14 +36,22 @@
 
 <p>IFTTN basically does nothing different: it fakes a WordPress XML RPC API. Using plugin you're able to implement your own custom actions.</p>
 
-<h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<h1>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
 
 <p>git clone IFTTN to wherever you want and run <a href="https://www.npmjs.org/">NMP</a> afterwards to install all dependencies:</p>
 
 <pre><code>git clone git@github.com:sebauer/if-this-then-node.git
 nmp install
 </code></pre>
+
+<p>The next step is to set your custom authentication details in <code>config.js</code>. You need to use the credentials in the IFTTT WordPress channel.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'user'</span><span class="o">:</span> <span class="s1">'myuser'</span><span class="p">,</span>       <span class="c1">// Set your username here</span>
+    <span class="s1">'pw'</span>    <span class="o">:</span> <span class="s1">'mypw'</span>            <span class="c1">// Set your password here</span>
+<span class="p">}</span>
+</pre></div>
 
 <p>Now you can start the NodeJS server:</p>
 
@@ -52,20 +60,20 @@ nmp install
 
 <p>If you want the server constantly running in the background, you can use <a href="https://www.npmjs.org/package/forever">forever</a>.</p>
 
-<p>In IFTTT configure a new recipe with any trigger you like and WordPress as action channel. Configure the channel with the URL to your instance of IFTTN and the user credentials you set locally. By default this application runs on port 1337 and you might have to configure a port redirect in your router to make the instance of NodeJS accessible from the internet.</p>
+<p>In IFTTT configure a new recipe with any trigger you like and WordPress as action channel. Configure the channel with the URL to your instance of IFTTN and the user credentials you set in the config.js previously. By default this application runs on port 1337 and you might have to configure a port redirect in your router to make the instance of NodeJS accessible from the internet.</p>
 
 <p>For the WordPress action in IFTTT basically only 2 fields are required by this plugin, all other fields can be set to anything you whish:</p>
 
 <ul>
 <li>Body</li>
 <li>Categories</li>
-</ul><h3>
-<a name="body" class="anchor" href="#body"><span class="octicon octicon-link"></span></a>Body</h3>
+</ul><h2>
+<a name="body" class="anchor" href="#body"><span class="octicon octicon-link"></span></a>Body</h2>
 
 <p>The Body field is used to tell the IFTTN server which plugin should be called. A list of available plugins can be seen during the startup of IFTTN. Just use that name as the post body.</p>
 
-<h3>
-<a name="categories" class="anchor" href="#categories"><span class="octicon octicon-link"></span></a>Categories</h3>
+<h2>
+<a name="categories" class="anchor" href="#categories"><span class="octicon octicon-link"></span></a>Categories</h2>
 
 <p>The categories are used for submitting parameters to the plugin. For example the Wake On Lan plugin uses 2 parameters, a broadcast address and a MAC address. Parameters (or categories) will be written as comma separated lists. The parameter itself as a key/value pair. For the WOL plugin this would look like:</p>
 
@@ -74,12 +82,12 @@ nmp install
 
 <p>Values will be assigned by using the = sign, so you cannot use this as a value itself.</p>
 
-<img src="images/ifttt-screenshot.jpg" alt="IFTTT Screenshot" />
+<p><img src="http://sebauer.github.io/if-this-then-node/images/ifttt-screenshot.jpg" alt="IFTTT Configuration"></p>
 
 <p>Now the action should be all set up and you're able to trigger it.</p>
 
-<h2>
-<a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Plugins</h2>
+<h1>
+<a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Plugins</h1>
 
 <p>Plugins are used for implementing new commands or actions into IFTTN. Just have a look at the <a href="https://github.com/sebauer/if-this-then-node/blob/master/plugins/sample-plugin.js">sample plugin</a> inside the plugins-directory, it should be pretty self-explaining. The most important thing is that EVERY plugin must at least implement the functions info() and run(params, callback).</p>
 
@@ -101,13 +109,38 @@ nmp install
 
 <p>Please note, that you MUST call the callback in your plugin as IFTTN would cannot send a response back to IFTTT. This would make IFTTT wait for a response until a timeout is reached and might result in your recipe being disabled after several failures.</p>
 
+<h2>
+<a name="available-plugins" class="anchor" href="#available-plugins"><span class="octicon octicon-link"></span></a>Available plugins</h2>
+
 <h3>
-<a name="available-plugins" class="anchor" href="#available-plugins"><span class="octicon octicon-link"></span></a>Available plugins</h3>
+<a name="wakeonlan---wake-on-lan" class="anchor" href="#wakeonlan---wake-on-lan"><span class="octicon octicon-link"></span></a>wakeonlan - Wake On Lan</h3>
 
-<h4>
-<a name="wake-on-lan" class="anchor" href="#wake-on-lan"><span class="octicon octicon-link"></span></a>Wake On Lan</h4>
+<p>This plugin can be used to wake up a PC which supports Wake On Lan. This plugin depends on "wakeonlan". You might also use etherwake, but that needs to be implemented, yet. The following parameters need to be set in your action-configuration in IFTTT:</p>
 
-<p>This plugin can be used to wake up a PC which supports Wake On Lan. This plugin depends on "wakeonlan". You might also use etherwake, but that needs to be implemented, yet.</p>
+<ul>
+<li>
+<strong>broadcast</strong> - The broadcast address of the system you're trying to wake up. If it has the local IP 192.168.1.1 the broadcast address usually is 192.168.1.255</li>
+<li>
+<strong>mac</strong> - The MAC address of the interface which is beeing accessed written as 00:00:00:00:00:00</li>
+</ul><h3>
+<a name="windows-shutdown-linux---shutdown-windows-from-linux" class="anchor" href="#windows-shutdown-linux---shutdown-windows-from-linux"><span class="octicon octicon-link"></span></a>windows-shutdown-linux - Shutdown Windows from Linux</h3>
+
+<p>Does exactly what it says it does. It shuts down a Windows PC from a Linux system. It requires a local user profile with administrative privileges on the Windows system and the <code>samba-common</code> package to be installed on the Linux system executing the command. On some systems you might need to first uninstall samba-common first and reinstall it before the net-command is available. Run:</p>
+
+<pre><code>sudo apt-get remove samba-common
+sudo apt-get install samba-common
+</code></pre>
+
+<p>The following parameters need to be set in your action-configurtion in IFTTT:</p>
+
+<ul>
+<li>
+<strong>ip</strong> - The local IP address of the system</li>
+<li>
+<strong>user</strong> - The username of the administrative user on the target system</li>
+<li>
+<strong>pw</strong> - The password of the administrative user on the target system</li>
+</ul>
       </section>
     </div>
     <footer>
