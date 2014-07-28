@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "3.x",
 		"xml2js": "0.4.x",
-    "express-xml-bodyparser":  "0.0.4"
+    "express-xml-bodyparser":  "0.0.4",
+    "bunyan": "0.x.x"
   }
 }

@@ -23,19 +23,19 @@ var config = {
 }
 ```
 
-Now you can start the NodeJS server:
+IFTTN uses [bunyan](https://www.npmjs.org/package/bunyan) for log-output. To have an easy readable output on your console, log output should be redirected to bunyan. If you don't have bunyan installed globally but (automatically) installed as dependency run the following command:
 ```
-node server
+node server | ./node_modules/bunyan/bin/bunyan
 ```
 
-If you want the server constantly running in the background, you can use [forever](https://www.npmjs.org/package/forever).
+Have a look at the bunyan documentation if you want to further define which log level you want to see. If you want the server constantly running in the background, you can use [forever](https://www.npmjs.org/package/forever).
 
 In IFTTT configure a new recipe with any trigger you like and WordPress as action channel. Configure the channel with the URL to your instance of IFTTN and the user credentials you set in the config.js previously. By default this application runs on port 1337 and you might have to configure a port redirect in your router to make the instance of NodeJS accessible from the internet.
 
 For the WordPress action in IFTTT basically only 2 fields are required by this plugin, all other fields can be set to anything you whish:
  * Body
  * Categories
- 
+
 ## Body
 The Body field is used to tell the IFTTN server which plugin should be called. A list of available plugins can be seen during the startup of IFTTN. Just use that name as the post body.
 
@@ -77,7 +77,7 @@ Please note, that you MUST call the callback in your plugin as IFTTN would canno
 This plugin can be used to wake up a PC which supports Wake On Lan. This plugin depends on "wakeonlan". You might also use etherwake, but that needs to be implemented, yet. The following parameters need to be set in your action-configuration in IFTTT:
  * __broadcast__ - The broadcast address of the system you're trying to wake up. If it has the local IP 192.168.1.1 the broadcast address usually is 192.168.1.255
  * __mac__ - The MAC address of the interface which is beeing accessed written as 00:00:00:00:00:00
- 
+
 ### windows-shutdown-linux - Shutdown Windows from Linux
 Does exactly what it says it does. It shuts down a Windows PC from a Linux system. It requires a local user profile with administrative privileges on the Windows system and the ``samba-common`` package to be installed on the Linux system executing the command. On some systems you might need to first uninstall samba-common first and reinstall it before the net-command is available. Run:
 ```

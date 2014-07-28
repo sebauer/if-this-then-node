@@ -1,5 +1,5 @@
 module.exports = {
-  run: function (params, callback) {
+  run: function (params, log, callback) {
     // do whatever you want in this plugin
 		callback({
 			'success' : true,

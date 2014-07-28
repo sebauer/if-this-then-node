@@ -17,15 +17,18 @@ console.log('--------------------------------------------\n');
 
 var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
+var bunyan = require('bunyan');
 
 var pluginManager = require('./plugin-manager');
 var parameterExtractor = require('./parameter-extractor').extractParameters;
 
 var config = require('./config.js').getConfig();
 
+var log = bunyan.createLogger({name: 'IFTTN'});
+
 // Validate that the user has set custom authentication details
 if(config.user == 'myuser' || config.pw == 'mypw') {
-	console.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');
+	log.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');
 	return;
 }
 
@@ -35,13 +38,12 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(xmlparser());
 
+pluginManager.setLogger(log);
 pluginManager.loadPlugins();
 
 var failure = function(status, res) {
 
-	console.log('\nSending failure response:');
-	console.log('  >> Status Code: '+status
-	);
+	log.info('Sending failure response with status code %d', status);
 	// TODO create xml by using xml2js
 	var xml = '<?xml version="1.0"?>\n<methodResponse><fault><value><struct><member><name>faultCode</name><value><int>'+status+'</int></value></member><member><name>faultString</name><value><string>Request was not successful.</string></value></member></struct></value></fault></methodResponse>';
 
@@ -54,8 +56,7 @@ var failure = function(status, res) {
 
 var success = function(innerXML, res) {
 
-	console.log('\nSending success response:');
-	console.dir(innerXML);
+	log.info('Sending success response %d', innerXML);
 	// TODO create xml by using xml2js
 	var xml = "<?xml version=\"1.0\"?>\n";
 	xml += "<methodResponse><params><param><value>"+innerXML+"</value></param></params></methodResponse>";
@@ -68,13 +69,13 @@ var success = function(innerXML, res) {
 }
 
 app.post('/xmlrpc.php', function(req, res, next){
-	console.log('\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - \nPOST request received');
-	console.log(req.rawBody);
-	console.dir(req.body);
+	log.info('XMLRPC API request received');
+	log.info(req.rawBody);
+	log.info(req.body);
 
 	var methodName = req.body.methodcall.methodname[0];
 
-	console.log('\nMethod Name: '+methodName);
+	log.info('Method Name: %s', methodName);
 
 	switch(methodName) {
 		case 'mt.supportedMethods':
@@ -92,30 +93,30 @@ app.post('/xmlrpc.php', function(req, res, next){
 
 			// Validate user credenials
 			if(params.user != config.user || params.pw != config.pw) {
-				console.error('Authentication failed!');
+				log.error('Authentication failed!');
 				failure(401, res);
 				break;
 			}
 
 			// See if we know this plugin and then execute it with the given parameters
 			if(pluginManager.pluginExists(params.action)){
-				pluginManager.execute(params, function(result){
+				pluginManager.execute(params, log, function(result){
 					if(result.success == true){
-						console.log('Plugin succeeded with output: '+result.output);
+						log.info('Plugin succeeded with output %s', result.output);
 						success('<string>200</string>', res);
 					} else {
-						console.error('Plugin failed with output: '+result.output);
+						log.info('Plugin failed with output %s', result.output);
 						failure(1337, res);
 					}
 				});
 			} else {
-				console.error('No plugin found for action '+action);
+				log.error('No plugin found for action %s', action);
 				res.send(404, 'No plugin found for action '+action);
 			}
 
 			break;
 		default:
-			console.log('Unknown request');
+			log.warn('Unknown request');
 			res.send(403,'Unknown reqest');
 			break;
 	}
@@ -123,5 +124,5 @@ app.post('/xmlrpc.php', function(req, res, next){
 });
 
 var server = app.listen(1337, function() {
-  console.log('\nListening on port %d', server.address().port);
+  log.info('Listening on port %d', server.address().port);
 });
