@@ -9,15 +9,18 @@
  * IFTTT backend go to https://github.com/captn3m0/ifttt-webhook
  *
  */
-
-console.log('\nStarting "IFTTN - IF This Then Node"...');
+console.log('\n============================================');
+console.log('Starting "IFTTN - IF This Then Node"...');
 console.log('============================================');
-console.log('Credits for idea go to:\nhttps://github.com/captn3m0/ifttt-webhook\n\n');
+console.log('http://sebauer.github.io/if-this-then-node/')
+console.log('--------------------------------------------\n');
 
 var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
+
 var pluginManager = require('./plugin-manager');
 var parameterExtractor = require('./parameter-extractor').extractParameters;
+
 var config = require('./config.js').getConfig();
 
 // Validate that the user has set custom authentication details
@@ -28,11 +31,11 @@ if(config.user == 'myuser' || config.pw == 'mypw') {
 
 var app = express();
 
-pluginManager.loadPlugins();
-
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(xmlparser());
+
+pluginManager.loadPlugins();
 
 var failure = function(status, res) {
 
