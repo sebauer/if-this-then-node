@@ -22,7 +22,3 @@ module.exports = {
 		return 'IFTTN Shutdown Windows from Linux';
 	}
 };
-
-// This private
-var anyHelperFunction = function () {
-}
