@@ -22,7 +22,3 @@ module.exports = {
 		return 'IFTTN Wake-On-LAN Plugin V0.1';
 	}
 };
-
-// This private
-var anyHelperFunction = function () {
-}
