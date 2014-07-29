@@ -52,7 +52,10 @@ Values will be assigned by using the = sign, so you cannot use this as a value i
 Now the action should be all set up and you're able to trigger it.
 
 # Plugins
-Plugins are used for implementing new commands or actions into IFTTN. Just have a look at the [sample plugin](https://github.com/sebauer/if-this-then-node/blob/master/plugins/sample-plugin.js) inside the plugins-directory, it should be pretty self-explaining. The most important thing is that EVERY plugin must at least implement the functions info() and run(params, callback).
+Plugins are used for implementing new commands or actions into IFTTN.
+
+## Writing Plugins
+Just have a look at the [sample plugin](https://github.com/sebauer/if-this-then-node/blob/master/plugins/sample-plugin.js) inside the plugins-directory, it should be pretty self-explaining. The most important thing is that EVERY plugin must at least implement the functions info() and run(params, log, callback).
 
 The "params" variable holds all parameters from IFTTT as an object. Using the example of our WOL-plugin this object would look like:
 ```javascript
@@ -60,6 +63,11 @@ The "params" variable holds all parameters from IFTTT as an object. Using the ex
 	'broadcast': '192.168.1.255',
 	'mac': '00:00:00:00:00:00'
 }
+```
+
+The log parameter is a reference to the instance of the logger (bunyan) which allows you to log custom messages:
+```javascript
+log.info('Foo %s', bar);
 ```
 
 The callback parameter holds the callback function executed from IFTTN. It expects an result object as parameter:
