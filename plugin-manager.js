@@ -26,11 +26,11 @@ module.exports = {
 			}
 		}
   },
-	execute: function(params, log, callback) {
+	execute: function(params, callback) {
 		// Finally run our plugin with the parameters
-		log.info('Executing plugin %s with params:', params.action);
-		log.info(params.actionParams);
-		this.pluginList[params.action].run(params.actionParams, callback);
+		this.log.info('Executing plugin %s with params:', params.action);
+		this.log.info(params.actionParams);
+		this.pluginList[params.action].run(params.actionParams, this.log, callback);
 	},
 	pluginExists: function(pluginName) {
 		return typeof this.pluginList[pluginName] !== 'undefined';
