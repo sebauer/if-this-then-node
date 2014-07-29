@@ -19,6 +19,6 @@ module.exports = {
 		});
   },
 	info: function() {
-		return 'IFTTN Wake-On-LAN Plugin V0.1';
+		return 'IFTTN Wake-On-LAN Plugin (Linux) V0.1';
 	}
 };
