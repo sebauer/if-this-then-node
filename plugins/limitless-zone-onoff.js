@@ -32,7 +32,7 @@ module.exports = {
 	});
   },
 	info: function() {
-		return 'IFTTN Sample Plugin Version 1.0';
+		return 'IFTTN LimitlessLED Plugin - Zone x On/Off';
 	}
 };
 
