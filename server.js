@@ -56,7 +56,7 @@ var failure = function(status, res) {
 
 var success = function(innerXML, res) {
 
-	log.info('Sending success response %d', innerXML);
+	log.info('Sending success response "%s"', innerXML);
 	// TODO create xml by using xml2js
 	var xml = "<?xml version=\"1.0\"?>\n";
 	xml += "<methodResponse><params><param><value>"+innerXML+"</value></param></params></methodResponse>";
