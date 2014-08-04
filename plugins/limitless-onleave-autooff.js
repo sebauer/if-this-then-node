@@ -14,32 +14,26 @@ module.exports = {
         function () {
             log.info('Connected to LimitlessLED %s:%d', params.host, params.port);
     });
-    
-    MongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, db) {
-        if(err) {
-            throw err;
-        }
 
-        if(params.geofence.toLowerCase() == 'entered') {
-            log.info('Client %s is coming home', params.clientname);
+    if(params.geofence.toLowerCase() == 'entered') {
+        log.info('Client %s is coming home', params.clientname);
 
-            log.info('Registered %s as being home', params.clientname);
-            client.set('loa-'+params.clientname, true);
+        log.info('Registered %s as being home', params.clientname);
+        client.set('loa-'+params.clientname, true);
 
-        } else if(params.geofence.toLowerCase() == 'exited') {
-            log.info('"%s" has left the building', params.clientname);
+    } else if(params.geofence.toLowerCase() == 'exited') {
+        log.info('"%s" has left the building', params.clientname);
 
-            // Fire & forget: remove client from store
-            client.del('loa-'+params.clientname);
+        // Fire & forget: remove client from store
+        client.del('loa-'+params.clientname);
 
-            // Now check if there are some clients left
-            client.keys('loa-*', function(err, replies) {
-                if(replies.length == 0) {
-                    log.info('All clients left, turning off ALL lights');
-                    connection.send(led.RGBW.ALL_OFF);
-                }
-            });
-        }
+        // Now check if there are some clients left
+        client.keys('loa-*', function(err, replies) {
+            if(replies.length == 0) {
+                log.info('All clients left, turning off ALL lights');
+                connection.send(led.RGBW.ALL_OFF);
+            }
+        });
     }
     // do whatever you want in this plugin
 	callback({
