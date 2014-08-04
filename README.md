@@ -96,3 +96,31 @@ The following parameters need to be set in your action-configurtion in IFTTT:
  * __ip__ - The local IP address of the system
  * __user__ - The username of the administrative user on the target system
  * __pw__ - The password of the administrative user on the target system
+
+### LimitlessLED
+The "LimitlessLED" plugins can be used to control any LimitlessLED (also known as "MiLight" or "IWY Light" system using IFTTT.
+
+More information can be found [here](http://www.wifiledlamp.com/service/applamp-api/), [here](http://www.limitlessled.com/dev/) and [here](http://www.msxfaq.de/lync/impresence/iwylight.htm).
+
+#### limitless-zone-onoff
+An easy plugin for remotely turning on or off the lights of a specified zone.
+
+The following parameters need to be set in your action-configuration in IFTTT:
+ * __host__ - The local IP address of your MiLight WIFI-Gateway
+ * __port__ - The UDP port your MiLight-WIFI-Gateway is listening on
+ * __zone__ - The number of the zone you wish to control. Numbers 1-4 usually.
+ * __onoff__ - Whether to turn your zone on or off. Values: on, off
+
+#### limitless-onleave-autooff
+This plugin turns off your lights if all known clients have left. You can use this plugin together with IFTTT's geofencing features. Please note: if you are living with multiple people, each of them might need to have IFTTT running on their mobile phones and have this recipe set up and running. This is due to the fact, that the plugin needs to run a list of "accepted" clients in order to know when the last person has left and the lights can finally be turned off.
+
+This plugin requires redis. On Ubuntu/Debian/Respbian it can be installed like this:
+```
+sudo apt-get install redis-server
+```
+
+The following parameters need to be set in your action-configuration in IFTTT:
+ * __host__ - The local IP address of your MiLight WIFI-Gateway
+ * __port__ - The UDP port your MiLight-WIFI-Gateway is listening on
+ * __clientname__ - The name of the client this recipe is running for
+ * __onoff__ - {{EnteredOrExited}} - IFTTT's ingredient to tell whether someone has entered or exited the geofence
