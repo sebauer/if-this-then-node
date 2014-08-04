@@ -11,10 +11,10 @@ module.exports = {
 			port: params.port
 		},
 		'udp',
-		function () {
-			log.info('Connected to LimitlessLED %s:%d', params.host, params.port);
-	);
-
+        function () {
+            log.info('Connected to LimitlessLED %s:%d', params.host, params.port);
+    });
+    
     MongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, db) {
         if(err) {
             throw err;
