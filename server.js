@@ -10,7 +10,7 @@
  *
  */
 console.log('\n============================================');
-console.log('Starting "IFTTN - IF This Then Node"...');
+console.log('Starting "IFTTN - If This Then Node"...');
 console.log('============================================');
 console.log('http://sebauer.github.io/if-this-then-node/')
 console.log('--------------------------------------------\n');
