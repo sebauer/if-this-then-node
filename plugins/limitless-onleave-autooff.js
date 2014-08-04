@@ -15,13 +15,13 @@ module.exports = {
             log.info('Connected to LimitlessLED %s:%d', params.host, params.port);
     });
 
-    if(params.geofence.toLowerCase() == 'entered' || params.geofence.toLowerCase() == 'connected to') {
+    if(params.enterexit.toLowerCase() == 'entered' || params.enterexit.toLowerCase() == 'connected to') {
         log.info('Client %s is coming home', params.clientname);
 
         log.info('Registered %s as being home', params.clientname);
         client.set('loa-'+params.clientname, true);
 
-    } else if(params.geofence.toLowerCase() == 'exited' || params.geofence.toLowerCase() == 'disconnected from') {
+    } else if(params.enterexit.toLowerCase() == 'exited' || params.enterexit.toLowerCase() == 'disconnected from') {
         log.info('"%s" has left the building', params.clientname);
 
         // Fire & forget: remove client from store
