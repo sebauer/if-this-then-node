@@ -71,7 +71,6 @@ var success = function(innerXML, res) {
 app.post('/xmlrpc.php', function(req, res, next){
 	log.info('XMLRPC API request received');
 	log.info(req.rawBody);
-	log.info(req.body);
 
 	var methodName = req.body.methodcall.methodname[0];
 
