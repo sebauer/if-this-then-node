@@ -20,13 +20,13 @@ module.exports = {
             throw err;
         }
 
-        if(params.geofence == 'join') {
+        if(params.geofence.toLowerCase() == 'entered') {
             log.info('Client %s is coming home', params.clientname);
 
             log.info('Registered %s as being home', params.clientname);
             client.set('loa-'+params.clientname, true);
 
-        } else if(params.geofence == 'leave') {
+        } else if(params.geofence.toLowerCase() == 'exited') {
             log.info('"%s" has left the building', params.clientname);
 
             // Fire & forget: remove client from store
