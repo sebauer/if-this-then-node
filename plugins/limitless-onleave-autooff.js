@@ -24,15 +24,16 @@ module.exports = {
     } else if(params.enterexit.toLowerCase() == 'exited' || params.enterexit.toLowerCase() == 'disconnected from') {
         log.info('"%s" has left the building', params.clientname);
 
-        // Fire & forget: remove client from store
-        client.del('loa-'+params.clientname);
-
-        // Now check if there are some clients left
-        client.keys('loa-*', function(err, replies) {
-            if(replies.length == 0) {
-                log.info('All clients left, turning off ALL lights');
-                connection.send(led.RGBW.ALL_OFF);
-            }
+        // Remove client from store
+        client.del('loa-'+params.clientname, function(err, reply) {
+            // Now check if there are some clients left
+            log.info('Checking for remaining clients..');
+            client.keys('loa-*', function(err, replies) {
+                if(replies.length == 0) {
+                    log.info('All clients left, turning off ALL lights');
+                    connection.send(led.RGBW.ALL_OFF);
+                }
+            });
         });
     }
     // do whatever you want in this plugin
