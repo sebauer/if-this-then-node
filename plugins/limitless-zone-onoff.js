@@ -15,7 +15,7 @@ module.exports = {
     var cmd = switchLED(connection, params.zone, params.onoff);
 	callback({
 		'success' : true,
-		'output'  : 'Sent command '+cmd;
+		'output'  : 'Sent command '+cmd
 	});
   },
 	info: function() {
