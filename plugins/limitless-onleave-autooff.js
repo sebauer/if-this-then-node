@@ -24,7 +24,6 @@ module.exports = {
             connection.send(led.RGBW.ALL_OFF);
         })
     }
-    // do whatever you want in this plugin
 	callback({
 		'success' : true,
 		'output'  : 'all good!'
