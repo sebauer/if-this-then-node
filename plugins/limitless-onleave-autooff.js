@@ -20,13 +20,13 @@ module.exports = {
 
     if(params.enterexit.toLowerCase() == 'entered' || params.enterexit.toLowerCase() == 'connected to') {
         log.info('Client %s is coming home', params.clientname);
-        registerClient(params.clientname);
+        registerClient(params.clientname, log);
     } else if(params.enterexit.toLowerCase() == 'exited' || params.enterexit.toLowerCase() == 'disconnected from') {
         log.info('"%s" has left the building', params.clientname);
         deregisterClient(params.clientname, function(){
             log.info('All clients left, turning off ALL lights');
             connection.send(led.RGBW.ALL_OFF);
-        })
+        }, log);
     }
 	callback({
 		'success' : true,
@@ -38,13 +38,13 @@ module.exports = {
 	}
 };
 
-var registerClient = function(clientname) {
+var registerClient = function(clientname, log) {
     var client = redis.createClient();
     log.info('Registered %s as being home', clientname);
     client.sadd(setName, clientname);
 }
 
-var deregisterClient = function(clientname, callback) {
+var deregisterClient = function(clientname, callback, log) {
     var client = redis.createClient();
     // Remove client from store
     client.srem(setName, clientname, function(err, reply) {
