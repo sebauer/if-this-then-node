@@ -12,20 +12,7 @@ module.exports = {
 			log.info('Connected to LimitlessLED %s:%d', params.host, params.port);
 		}
 	);
-	var cmd = '';
-	switch(params.onoff.toUpperCase()) {
-		case('ON'):
-			cmd = led.RGBW['ZONE_'+params.zone+'_ON'];
-			break;
-		case('OFF'):
-			cmd = led.RGBW['ZONE_'+params.zone+'_OFF'];
-			break;
-		default:
-			log.warn('Error with command, input %s invalid', params.onoff);
-			break;
-	}
-	connection.send(cmd);
-    // do whatever you want in this plugin
+    switchLED(connection, params.onoff);
 	callback({
 		'success' : true,
 		'output'  : 'all good!'
@@ -36,6 +23,19 @@ module.exports = {
 	}
 };
 
-// This private
-var anyHelperFunction = function () {
+var switchLED = function(connection, onoff) {
+    var cmd = '';
+    switch(onoff.toUpperCase()) {
+        case('ON'):
+            cmd = led.RGBW['ZONE_'+params.zone+'_ON'];
+            break;
+        case('OFF'):
+            cmd = led.RGBW['ZONE_'+params.zone+'_OFF'];
+            break;
+        default:
+            log.warn('Error with command, input %s invalid', params.onoff);
+            break;
+    }
+    connection.send(cmd);
+
 }
