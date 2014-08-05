@@ -3,6 +3,7 @@ var parseString = require('xml2js').parseString;
 var redis = require('redis');
 var parameterExtractor = require('../parameter-extractor.js');
 var pluginManager = require('../plugin-manager.js');
+var limitlessZoneOnOff = require('../plugins/limitless-zone-onoff');
 var limitlessOnleaveAutooff = require('../plugins/limitless-onleave-autooff');
 
 // Lets fake a logger
@@ -14,6 +15,21 @@ var logMock = {
 };
 
 describe('Limitless LED Plugins', function(){
+
+	describe('limitless-zone-onoff', function(){
+		describe('on switching a Zone ON', function(){
+			it('should send the command to switch the specified zone ON', function(done){
+				limitlessOnleaveAutooff.run({
+					'zone': '1',
+					'onoff': 'on'
+				}, logMock, function(result){
+					assert.equal('Sent command '+0x45, result.output);
+					done();
+				});
+			});
+		});
+	});
+
 	describe('limitless-onleave-autooff', function(){
 
 		var redisSetName = 'unittest-runner';
