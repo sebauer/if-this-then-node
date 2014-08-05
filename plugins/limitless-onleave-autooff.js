@@ -20,28 +20,33 @@ module.exports = {
 
     if(params.enterexit.toLowerCase() == 'entered' || params.enterexit.toLowerCase() == 'connected to') {
         log.info('Client %s is coming home', params.clientname);
-        registerClient(params.clientname, log);
+        registerClient(params.clientname, function(){
+            callback({
+                'success' : true,
+                'output'  : 'Client registered at home'
+            });
+        }, log);
     } else if(params.enterexit.toLowerCase() == 'exited' || params.enterexit.toLowerCase() == 'disconnected from') {
         log.info('"%s" has left the building', params.clientname);
         deregisterClient(params.clientname, function(){
             log.info('All clients left, turning off ALL lights');
             connection.send(led.RGBW.ALL_OFF);
+            callback({
+                'success' : true,
+                'output'  : 'All clients left, lights turned OFF'
+            });
         }, log);
     }
-	callback({
-		'success' : true,
-		'output'  : 'all good!'
-	});
   },
 	info: function() {
 		return 'IFTTN LimitlessLED Plugin - onLeave: auto-off';
 	}
 };
 
-var registerClient = function(clientname, log) {
+var registerClient = function(clientname, callback, log) {
     var client = redis.createClient();
     log.info('Registered %s as being home', clientname);
-    client.sadd(setName, clientname);
+    client.sadd(setName, clientname, function(){callback()});
 }
 
 var deregisterClient = function(clientname, callback, log) {
