@@ -17,13 +17,24 @@ var logMock = {
 describe('Limitless LED Plugins', function(){
 
 	describe('limitless-zone-onoff', function(){
-		describe('on switching a Zone ON', function(){
+		describe('when switching a Zone ON', function(){
 			it('should send the command to switch the specified zone ON', function(done){
 				limitlessZoneOnOff.run({
 					'zone': '1',
 					'onoff': 'on'
 				}, logMock, function(result){
 					assert.equal('Sent command '+0x45, result.output);
+					done();
+				});
+			});
+		});
+		describe('when switching a Zone OFF', function(){
+			it('should send the command to switch the specified zone ON', function(done){
+				limitlessZoneOnOff.run({
+					'zone': '3',
+					'onoff': 'off'
+				}, logMock, function(result){
+					assert.equal('Sent command '+0x4A, result.output);
 					done();
 				});
 			});
