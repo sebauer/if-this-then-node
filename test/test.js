@@ -19,7 +19,7 @@ describe('Limitless LED Plugins', function(){
 	describe('limitless-zone-onoff', function(){
 		describe('on switching a Zone ON', function(){
 			it('should send the command to switch the specified zone ON', function(done){
-				limitlessOnleaveAutooff.run({
+				limitlessZoneOnOff.run({
 					'zone': '1',
 					'onoff': 'on'
 				}, logMock, function(result){
