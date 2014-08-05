@@ -21,16 +21,12 @@ describe('Limitless LED Plugins', function(){
 		limitlessOnleaveAutooff.changeSetName(redisSetName);
 
 		afterEach(function(done){
-			client.del(redisSetName, function(){
-				done();
-			});
+			client.del(redisSetName, done);
 		});
 
 		describe('on exiting', function(){
 			before(function(done){
-				client.sadd(redisSetName, ['foo', 'bar'], function(){
-					done();
-				});
+				client.sadd(redisSetName, ['foo', 'bar'], done);
 			});
 
 			it('should correctly remove the client from redis', function(done){
