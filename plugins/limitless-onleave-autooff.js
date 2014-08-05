@@ -28,12 +28,19 @@ module.exports = {
         }, log);
     } else if(params.enterexit.toLowerCase() == 'exited' || params.enterexit.toLowerCase() == 'disconnected from') {
         log.info('"%s" has left the building', params.clientname);
-        deregisterClient(params.clientname, function(){
-            log.info('All clients left, turning off ALL lights');
-            connection.send(led.RGBW.ALL_OFF);
+        deregisterClient(params.clientname, function(remainingClients){
+            var output = '';
+            if(remainingClients == 0) {
+                output = 'All clients left, ALL lights turned OFF';
+                log.info(output);
+                connection.send(led.RGBW.ALL_OFF);
+            } else {
+                output = 'Client deregistered, still clients at home, lights will stay on';
+                log.info('%d clients still at home, not switching off lights', remainingClients);
+            }
             callback({
                 'success' : true,
-                'output'  : 'All clients left, lights turned OFF'
+                'output'  : output
             });
         }, log);
     }
@@ -56,10 +63,8 @@ var deregisterClient = function(clientname, callback, log) {
         // Now check if there are some clients left
         log.info('Checking for remaining clients..');
         client.smembers(setName, function(err, replies) {
-            // If no clients are left, execute the callback function
-            if(replies.length == 0) {
-                callback();
-            }
+            // Execute callback with the number of remaining clients
+            callback(replies.length);
         });
     });
 }
