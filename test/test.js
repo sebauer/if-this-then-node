@@ -43,6 +43,25 @@ describe('Limitless LED Plugins', function(){
 			});
 		});
 
+		describe('on last client exiting', function(){
+			before(function(done){
+				client.sadd(redisSetName, 'foobar', done);
+			});
+
+			it('should remove the last client and turn off the lights', function(done){
+				limitlessOnleaveAutooff.run({
+					'clientname': 'foobar',
+					'enterexit': 'exited'
+				}, logMock, function(result){
+					assert.equal('All clients left, ALL lights turned OFF', result.output);
+					client.smembers(redisSetName, function(err, replies) {
+						assert.equal(0, replies.length);
+						done();
+					});
+				});
+			});
+		});
+
 		describe('on entering', function(){
 			it('Should correctly add clients to redis', function(done){
 				var clientName = 'unittest';
