@@ -18,23 +18,45 @@ describe('Limitless LED Plugins', function(){
 
 		var redisSetName = 'unittest-runner';
 		var client = redis.createClient();
+		limitlessOnleaveAutooff.changeSetName(redisSetName);
 
 		afterEach(function(done){
 			client.del(redisSetName);
 		});
 
-		it('Should correctly add clients to redis', function(done){
-			var clientName = 'unittest';
-
-			limitlessOnleaveAutooff.changeSetName(redisSetName);
-			limitlessOnleaveAutooff.run({
-				'clientname': clientName,
-				'enterexit': 'entered'
-			}, logMock, function(){
-				client.sismember(redisSetName, clientName, function(err, reply) {
-					reply.should
-					assert.equal(1, reply);
+		describe('on exiting', function(){
+			before(function(done){
+				client.sadd(redisSetName, ['foo', 'bar'], function(){
 					done();
+				});
+			});
+
+			it('should correctly remove the client from redis', function(done){
+				limitlessOnleaveAutooff.run({
+					'clientname': 'foo',
+					'enterexit': 'exited'
+				}, logMock, function(){
+					client.smembers(redisSetName, clientName, function(err, replies) {
+						assert.equal(1, replies.length);
+						assert.equal('bar', replies[0]);
+						done();
+					});
+				});
+			});
+		});
+
+		describe('on entering', function(){
+			it('Should correctly add clients to redis', function(done){
+				var clientName = 'unittest';
+
+				limitlessOnleaveAutooff.run({
+					'clientname': clientName,
+					'enterexit': 'entered'
+				}, logMock, function(){
+					client.sismember(redisSetName, clientName, function(err, reply) {
+						assert.equal(1, reply);
+						done();
+					});
 				});
 			});
 		});
