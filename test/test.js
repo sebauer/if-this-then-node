@@ -17,6 +17,7 @@ describe('Limitless LED Plugins', function(){
 	describe('limitless-onleave-autooff', function(){
 
 		var redisSetName = 'unittest-runner';
+		var client = redis.createClient();
 
 		afterEach(function(done){
 			client.del(redisSetName);
@@ -30,7 +31,6 @@ describe('Limitless LED Plugins', function(){
 				'clientname': clientName,
 				'enterexit': 'entered'
 			}, logMock, function(){
-				var client = redis.createClient();
 				client.sismember(redisSetName, clientName, function(err, reply) {
 					reply.should
 					assert.equal(1, reply);
