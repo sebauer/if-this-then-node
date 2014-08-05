@@ -9,6 +9,8 @@ module.exports = {
     },
   run: function (params, log, callback) {
 
+    // Connect to our MiLight WIFI Gateway
+    // TODO move to seperate module
 	var connection = led.createSocket({
 	        host: params.host,
 			port: params.port
@@ -18,6 +20,7 @@ module.exports = {
             log.info('Connected to LimitlessLED %s:%d', params.host, params.port);
     });
 
+    // If a client enters the geofence, register him within the redis keystore
     if(params.enterexit.toLowerCase() == 'entered' || params.enterexit.toLowerCase() == 'connected to') {
         log.info('Client %s is coming home', params.clientname);
         registerClient(params.clientname, function(){
@@ -26,6 +29,8 @@ module.exports = {
                 'output'  : 'Client registered at home'
             });
         }, log);
+    // If a client leaves the geofence, remove him from the redis keystore and additionally check whether other
+    // clients are still left. If yes, we're fine, if not, we have to switch off the lights
     } else if(params.enterexit.toLowerCase() == 'exited' || params.enterexit.toLowerCase() == 'disconnected from') {
         log.info('"%s" has left the building', params.clientname);
         deregisterClient(params.clientname, function(remainingClients){
@@ -51,6 +56,7 @@ module.exports = {
 };
 
 var registerClient = function(clientname, callback, log) {
+    // Add client to redis store
     var client = redis.createClient();
     log.info('Registered %s as being home', clientname);
     client.sadd(setName, clientname, function(){callback()});
