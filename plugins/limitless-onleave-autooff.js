@@ -46,7 +46,3 @@ module.exports = {
 		return 'IFTTN LimitlessLED Plugin - onLeave: auto-off';
 	}
 };
-
-// This private
-var anyHelperFunction = function () {
-}
