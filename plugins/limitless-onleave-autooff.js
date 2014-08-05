@@ -1,8 +1,12 @@
 var led = require('limitless-gem');
 var redis = require('redis');
 var format = require('util').format;
+var setName = 'ifttn-limitless-clients';
 
 module.exports = {
+    changeSetName: function(newName) {
+        setName = newName;
+    },
   run: function (params, log, callback) {
 
 	var connection = led.createSocket({
@@ -37,16 +41,16 @@ module.exports = {
 var registerClient = function(clientname) {
     var client = redis.createClient();
     log.info('Registered %s as being home', clientname);
-    client.sadd('ifttn-limitless-clients', clientname);
+    client.sadd(setName, clientname);
 }
 
 var deregisterClient = function(clientname, callback) {
     var client = redis.createClient();
     // Remove client from store
-    client.srem('ifttn-limitless-clients', clientname, function(err, reply) {
+    client.srem(setName, clientname, function(err, reply) {
         // Now check if there are some clients left
         log.info('Checking for remaining clients..');
-        client.smembers('ifttn-limitless-clients', function(err, replies) {
+        client.smembers(setName, function(err, replies) {
             // If no clients are left, execute the callback function
             if(replies.length == 0) {
                 callback();
