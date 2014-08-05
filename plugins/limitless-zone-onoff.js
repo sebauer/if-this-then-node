@@ -27,10 +27,10 @@ var switchLED = function(connection, onoff) {
     var cmd = '';
     switch(onoff.toUpperCase()) {
         case('ON'):
-            cmd = led.RGBW['ZONE_'+params.zone+'_ON'];
+            cmd = led.RGBW['ZONE_'+onoff+'_ON'];
             break;
         case('OFF'):
-            cmd = led.RGBW['ZONE_'+params.zone+'_OFF'];
+            cmd = led.RGBW['ZONE_'+onoff+'_OFF'];
             break;
         default:
             log.warn('Error with command, input %s invalid', params.onoff);
