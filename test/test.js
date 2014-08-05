@@ -21,7 +21,9 @@ describe('Limitless LED Plugins', function(){
 		limitlessOnleaveAutooff.changeSetName(redisSetName);
 
 		afterEach(function(done){
-			client.del(redisSetName);
+			client.del(redisSetName, function(){
+				done();
+			});
 		});
 
 		describe('on exiting', function(){
@@ -36,7 +38,7 @@ describe('Limitless LED Plugins', function(){
 					'clientname': 'foo',
 					'enterexit': 'exited'
 				}, logMock, function(){
-					client.smembers(redisSetName, clientName, function(err, replies) {
+					client.smembers(redisSetName, function(err, replies) {
 						assert.equal(1, replies.length);
 						assert.equal('bar', replies[0]);
 						done();
