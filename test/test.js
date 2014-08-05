@@ -5,28 +5,34 @@ var parameterExtractor = require('../parameter-extractor.js');
 var pluginManager = require('../plugin-manager.js');
 var limitlessOnleaveAutooff = require('../plugins/limitless-onleave-autooff');
 
-var bunyan = require('bunyan');
-var log = bunyan.createLogger({name: 'IFTTN-testrunner'});
+// Lets fake a logger
+var logMock = {
+	'info' : function(){},
+	'debug': function(){},
+	'warn' : function(){},
+	'error': function(){}
+};
 
 describe('Limitless LED Plugins', function(){
 	describe('limitless-onleave-autooff', function(){
+
+		var redisSetName = 'unittest-runner';
+
+		afterEach(function(done){
+			client.del(redisSetName);
+		});
+
 		it('Should correctly add clients to redis', function(done){
-			var setName = 'unittest-runner';
 			var clientName = 'unittest';
 
-			limitlessOnleaveAutooff.changeSetName(setName);
+			limitlessOnleaveAutooff.changeSetName(redisSetName);
 			limitlessOnleaveAutooff.run({
 				'clientname': clientName,
 				'enterexit': 'entered'
-			},
-			// Let's fake a logger
-			{
-				'info' : function(){},
-				'warn' : function(){},
-				'error': function(){}
-			}, function(){
+			}, logMock, function(){
 				var client = redis.createClient();
-				client.sismember(setName, clientName, function(err, reply) {
+				client.sismember(redisSetName, clientName, function(err, reply) {
+					reply.should
 					assert.equal(1, reply);
 					done();
 				});
@@ -38,7 +44,7 @@ describe('Limitless LED Plugins', function(){
 describe('Plugin Manager', function(){
 	describe('Plugin Loader', function(){
 		it('Should find all plugins', function(done){
-			pluginManager.setLogger(log);
+			pluginManager.setLogger(logMock);
 			pluginManager.loadPlugins();
 			assert.equal(5, Object.keys(pluginManager.pluginList).length);
 			done();
