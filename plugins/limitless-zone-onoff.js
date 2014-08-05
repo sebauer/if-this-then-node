@@ -12,10 +12,10 @@ module.exports = {
 			log.info('Connected to LimitlessLED %s:%d', params.host, params.port);
 		}
 	);
-    switchLED(connection, params.zone, params.onoff);
+    var cmd = switchLED(connection, params.zone, params.onoff);
 	callback({
 		'success' : true,
-		'output'  : 'all good!'
+		'output'  : 'Sent command '+cmd;
 	});
   },
 	info: function() {
@@ -37,5 +37,5 @@ var switchLED = function(connection, zone, onoff) {
             break;
     }
     connection.send(cmd);
-
+    return cmd;
 }
