@@ -9,20 +9,18 @@
  * IFTTT backend go to https://github.com/captn3m0/ifttt-webhook
  *
  */
-var pjson = require('./package.json');
-console.log('\n=========================================================');
-console.log('Starting "IFTTN - If This Then Node" Version '+pjson.version);
-console.log('=========================================================');
-console.log('http://sebauer.github.io/if-this-then-node/')
-console.log('---------------------------------------------------------\n');
-
 var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
 var bunyan = require('bunyan');
 
+var helper = require('./modules/helper');
+
+helper.printStartupHeader();
+
 var pluginManager = require('./modules/plugin-manager');
 var parameterExtractor = require('./modules/parameter-extractor').extractParameters;
 var responseGenerator = require('./modules/response-generator');
+var xmlRpcApiHandler = require('./modules/xml-rpc-api-handler');
 
 var config = require('./config.js').getConfig();
 
@@ -33,18 +31,13 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(xmlparser());
 
-checkForDefaultCredentials();
+helper.checkDefaultCredentials();
 
 pluginManager.setLogger(log);
 pluginManager.loadPlugins();
 
-function checkForDefaultCredentials() {
-	// Validate that the user has set custom authentication details
-	if(config.user == 'myuser' || config.pw == 'mypw') {
-		log.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');
-		process.exit(42);
-	}
-}
+xmlRpcApiHandler.setLogger(log);
+xmlRpcApiHandler.setPluginManager(pluginManager);
 
 app.post('/xmlrpc.php', function(req, res, next){
 	log.info('XMLRPC API request received');
@@ -54,52 +47,9 @@ app.post('/xmlrpc.php', function(req, res, next){
 
 	log.info('Method Name: %s', methodName);
 
-	switch(methodName) {
-		case 'mt.supportedMethods':
-			responseGenerator.success('metaWeblog.getRecentPosts', res);
-			break;
-		//first authentication request from ifttt
-		case 'metaWeblog.getRecentPosts':
-			//send a blank blog response
-			//this also makes sure that the channel is never triggered
-			responseGenerator.success('<array><data></data></array>', res);
-			break;
-		case 'metaWeblog.newPost':
-			var params = req.body.methodcall.params;
-			params = parameterExtractor(params[0]);
-
-			// Validate user credenials
-			if(params.user != config.user || params.pw != config.pw) {
-				log.error('Authentication failed!');
-				responseGenerator.failure(401, res);
-				break;
-			}
-
-			// See if we know this plugin and then execute it with the given parameters
-			if(pluginManager.pluginExists(params.action)){
-				pluginManager.execute(params, function(result){
-					if(result.success == true){
-						log.info('Plugin succeeded with output %s', result.output);
-						responseGenerator.success('<string>200</string>', res);
-					} else {
-						log.info('Plugin failed with output %s', result.output);
-						responseGenerator.failure(1337, res);
-					}
-				});
-			} else {
-				log.error('No plugin found for action %s', action);
-				res.send(404, 'No plugin found for action '+action);
-			}
-
-			break;
-		default:
-			log.warn('Unknown request');
-			res.send(403,'Unknown reqest');
-			break;
-	}
-
+	xmlRpcApiHandler.handleMethod(methodName, req, res);
 });
 
 var server = app.listen(1337, function() {
-  log.info('Listening on port %d', server.address().port);
+	log.info('Listening on port %d', server.address().port);
 });
