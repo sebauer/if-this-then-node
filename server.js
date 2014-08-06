@@ -20,53 +20,30 @@ var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
 var bunyan = require('bunyan');
 
-var pluginManager = require('./plugin-manager');
-var parameterExtractor = require('./parameter-extractor').extractParameters;
+var pluginManager = require('./modules/plugin-manager');
+var parameterExtractor = require('./modules/parameter-extractor').extractParameters;
+var responseGenerator = require('./modules/response-generator');
 
 var config = require('./config.js').getConfig();
 
 var log = bunyan.createLogger({name: 'IFTTN'});
-
-// Validate that the user has set custom authentication details
-if(config.user == 'myuser' || config.pw == 'mypw') {
-	log.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');
-	return;
-}
-
 var app = express();
 
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(xmlparser());
 
+checkForDefaultCredentials();
+
 pluginManager.setLogger(log);
 pluginManager.loadPlugins();
 
-var failure = function(status, res) {
-
-	log.info('Sending failure response with status code %d', status);
-	// TODO create xml by using xml2js
-	var xml = '<?xml version="1.0"?>\n<methodResponse><fault><value><struct><member><name>faultCode</name><value><int>'+status+'</int></value></member><member><name>faultString</name><value><string>Request was not successful.</string></value></member></struct></value></fault></methodResponse>';
-
-	res.set({
-		'Content-Type': 'text/xml'
-	});
-
-	res.send(200, xml);
-}
-
-var success = function(innerXML, res) {
-
-	log.info('Sending success response "%s"', innerXML);
-	// TODO create xml by using xml2js
-	var xml = "<?xml version=\"1.0\"?>\n";
-	xml += "<methodResponse><params><param><value>"+innerXML+"</value></param></params></methodResponse>";
-
-	res.set({
-		'Content-Type': 'text/xml'
-	});
-
-	res.send(200, xml);
+function checkForDefaultCredentials() {
+	// Validate that the user has set custom authentication details
+	if(config.user == 'myuser' || config.pw == 'mypw') {
+		log.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');
+		process.exit(42);
+	}
 }
 
 app.post('/xmlrpc.php', function(req, res, next){
@@ -79,13 +56,13 @@ app.post('/xmlrpc.php', function(req, res, next){
 
 	switch(methodName) {
 		case 'mt.supportedMethods':
-			success('metaWeblog.getRecentPosts', res);
+			responseGenerator.success('metaWeblog.getRecentPosts', res);
 			break;
 		//first authentication request from ifttt
 		case 'metaWeblog.getRecentPosts':
 			//send a blank blog response
 			//this also makes sure that the channel is never triggered
-			success('<array><data></data></array>', res);
+			responseGenerator.success('<array><data></data></array>', res);
 			break;
 		case 'metaWeblog.newPost':
 			var params = req.body.methodcall.params;
@@ -94,7 +71,7 @@ app.post('/xmlrpc.php', function(req, res, next){
 			// Validate user credenials
 			if(params.user != config.user || params.pw != config.pw) {
 				log.error('Authentication failed!');
-				failure(401, res);
+				responseGenerator.failure(401, res);
 				break;
 			}
 
@@ -103,10 +80,10 @@ app.post('/xmlrpc.php', function(req, res, next){
 				pluginManager.execute(params, function(result){
 					if(result.success == true){
 						log.info('Plugin succeeded with output %s', result.output);
-						success('<string>200</string>', res);
+						responseGenerator.success('<string>200</string>', res);
 					} else {
 						log.info('Plugin failed with output %s', result.output);
-						failure(1337, res);
+						responseGenerator.failure(1337, res);
 					}
 				});
 			} else {
