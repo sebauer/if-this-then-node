@@ -1,5 +1,5 @@
 var responseGenerator = require('./response-generator');
-var config = require('../config');
+var config = require('../config').getConfig();
 var pluginManager = null;
 var log = null;
 

@@ -1,7 +1,11 @@
-var config = require('../config');
+var config = require('../config').getConfig();
 var pjson = require('../package.json');
+var log = null;
 
 module.exports = {
+    setLogger: function(logger){
+        log = logger;
+    },
     checkDefaultCredentials: function(){
         // Validate that the user has set custom authentication details
         if(config.user == 'myuser' || config.pw == 'mypw') {
