@@ -9,11 +9,12 @@
  * IFTTT backend go to https://github.com/captn3m0/ifttt-webhook
  *
  */
-console.log('\n============================================');
-console.log('Starting "IFTTN - If This Then Node"...');
-console.log('============================================');
+var pjson = require('./package.json');
+console.log('\n=========================================================');
+console.log('Starting "IFTTN - If This Then Node" Version '+pjson.version);
+console.log('=========================================================');
 console.log('http://sebauer.github.io/if-this-then-node/')
-console.log('--------------------------------------------\n');
+console.log('---------------------------------------------------------\n');
 
 var express = require('express');
 var xmlparser = require('express-xml-bodyparser');
