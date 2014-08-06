@@ -19,7 +19,7 @@ module.exports = {
 
 				// Now load the plugin
 				this.log.info('Loading %s', pluginName);
-				this.pluginList[pluginName] = require('./plugins/'+pluginName);
+				this.pluginList[pluginName] = require('../plugins/'+pluginName);
 
 				// Call the sample method to verify the plugin is working
 				this.log.info('  >> %s', this.pluginList[pluginName].info());
