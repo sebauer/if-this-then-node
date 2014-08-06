@@ -6,7 +6,7 @@ module.exports = {
 	setLogger: function(logger) {
 		this.log = logger;
 	},
-  loadPlugins: function () {
+	loadPlugins: function () {
 		var regexPattern = /\.js$/i;
 
 		this.log.info('Searching for plugins...');
@@ -25,7 +25,7 @@ module.exports = {
 				this.log.info('  >> %s', this.pluginList[pluginName].info());
 			}
 		}
-  },
+	},
 	execute: function(params, callback) {
 		// Finally run our plugin with the parameters
 		this.log.info('Executing plugin %s with params:', params.action);
