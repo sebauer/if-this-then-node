@@ -1,7 +1,7 @@
 {
   "name": "if-this-then-node",
   "description": "An extendible NodeJS app to receive actions from IFTTT (If This Then That).",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "private": true,
   "dependencies": {
     "express": "3.x",
