@@ -1,4 +1,5 @@
 var responseGenerator = require('./response-generator');
+var parameterExtractor = require('./parameter-extractor').extractParameters
 var config = require('../config').getConfig();
 var pluginManager = null;
 var log = null;

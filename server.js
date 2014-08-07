@@ -18,7 +18,6 @@ var helper = require('./modules/helper');
 helper.printStartupHeader();
 
 var pluginManager = require('./modules/plugin-manager');
-var parameterExtractor = require('./modules/parameter-extractor').extractParameters;
 var responseGenerator = require('./modules/response-generator');
 var xmlRpcApiHandler = require('./modules/xml-rpc-api-handler');
 
