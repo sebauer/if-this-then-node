@@ -12,10 +12,10 @@ module.exports = {
         res.send(200, xml);
     },
     success: function(status, res, log) {
-        log.info('Sending success response "%s"', innerXML);
+        log.info('Sending success response "%s"', status);
         // TODO create xml by using xml2js
         var xml = "<?xml version=\"1.0\"?>\n";
-        xml += "<methodResponse><params><param><value>"+innerXML+"</value></param></params></methodResponse>";
+        xml += "<methodResponse><params><param><value>"+status+"</value></param></params></methodResponse>";
 
         res.set({
             'Content-Type': 'text/xml'
