@@ -40,16 +40,16 @@ xmlRpcApiHandler.setLogger(log);
 xmlRpcApiHandler.setPluginManager(pluginManager);
 
 app.post('/xmlrpc.php', function(req, res, next){
-	log.info('XMLRPC API request received');
-	log.info(req.rawBody);
+  log.info('XMLRPC API request received');
+  log.info(req.rawBody);
 
-	var methodName = req.body.methodcall.methodname[0];
+  var methodName = req.body.methodcall.methodname[0];
 
-	log.info('Method Name: %s', methodName);
+  log.info('Method Name: %s', methodName);
 
-	xmlRpcApiHandler.handleMethod(methodName, req, res);
+  xmlRpcApiHandler.handleMethod(methodName, req, res);
 });
 
 var server = app.listen(1337, function() {
-	log.info('Listening on port %d', server.address().port);
+  log.info('Listening on port %d', server.address().port);
 });

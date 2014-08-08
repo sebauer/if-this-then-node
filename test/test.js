@@ -125,13 +125,13 @@ describe('XML Parsing', function(){
 	describe('Parameter Extractor', function(){
 		it('Should extract all parameters correctly', function(done){
 			parseString(xmlString, {
-        explicitArray: true,
-        normalize: true,
-        normalizeTags: true,
-        trim: true
+				explicitArray: true,
+				normalize: true,
+				normalizeTags: true,
+				trim: true
 			},
 			function (err, result) {
-			  var params = parameterExtractor.extractParameters(result.methodcall.params[0]);
+				var params = parameterExtractor.extractParameters(result.methodcall.params[0]);
 				assert.equal('meinuser', params.user);
 				assert.equal('meinpw', params.pw);
 				assert.equal('wakeonlan', params.action);
@@ -144,13 +144,13 @@ describe('XML Parsing', function(){
 		});
 		it('Should throw an exception when the parameters are incorrectly set', function(done){
 			parseString(xmlStringBadParams, {
-	      explicitArray: true,
-	      normalize: true,
-	      normalizeTags: true,
-	      trim: true
+				explicitArray: true,
+				normalize: true,
+				normalizeTags: true,
+				trim: true
 			},
 			function (err, result) {
-			  assert.throws(function(){
+				assert.throws(function(){
 					parameterExtractor.extractParameters(result.methodcall.params[0]);
 				}, Error, 'Parameters not valid!');
 				done();
