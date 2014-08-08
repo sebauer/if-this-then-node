@@ -23,6 +23,10 @@ module.exports = {
       case 'metaWeblog.newPost':
         metaWeblogNewPost(req, res);
         break;
+      case 'metaWeblog.getCategories':
+        log.info('Ignoring getCategories request');
+        res.send(200, '');
+        break;
       default:
         log.warn('Unknown request');
         res.send(403,'Unknown reqest');
