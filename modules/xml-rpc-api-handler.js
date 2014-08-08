@@ -32,13 +32,13 @@ module.exports = {
 }
 
 function mtSupportedMethods(res) {
-  responseGenerator.success('metaWeblog.getRecentPosts', res);
+  responseGenerator.success('metaWeblog.getRecentPosts', res, log);
 }
 
 function metaWeblogGetRecentPosts(res) {
   //send a blank blog response
   //this also makes sure that the channel is never triggered
-  responseGenerator.success('<array><data></data></array>', res);
+  responseGenerator.success('<array><data></data></array>', res, log);
 }
 
 function metaWeblogNewPost(req, res) {
@@ -48,7 +48,7 @@ function metaWeblogNewPost(req, res) {
   // Validate user credenials
   if(params.user != config.user || params.pw != config.pw) {
     log.error('Authentication failed!');
-    responseGenerator.failure(401, res);
+    responseGenerator.failure(401, res, log);
     return;
   }
 
@@ -57,10 +57,10 @@ function metaWeblogNewPost(req, res) {
     pluginManager.execute(params, function(result){
       if(result.success == true){
         log.info('Plugin succeeded with output %s', result.output);
-        responseGenerator.success('<string>200</string>', res);
+        responseGenerator.success('<string>200</string>', res, log);
       } else {
         log.info('Plugin failed with output %s', result.output);
-        responseGenerator.failure(1337, res);
+        responseGenerator.failure(1337, res, log);
       }
     });
   } else {
