@@ -1,6 +1,6 @@
 var assert = require('assert');
 var parseString = require('xml2js').parseString;
-var redis = require('redis');
+var redis = require('fakeredis');
 var parameterExtractor = require('../modules/parameter-extractor.js');
 var pluginManager = require('../modules/plugin-manager.js');
 var limitlessZoneOnOff = require('../plugins/limitless-zone-onoff');

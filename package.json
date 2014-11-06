@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "mocha" : "x.x.x",
-    "redis-mock": "x.x.x"
+    "fakeredis": "x.x.x"
   },
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha ./test/test.js"
