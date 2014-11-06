@@ -46,6 +46,7 @@ describe('Limitless LED Plugins', function(){
 		var redisSetName = 'unittest-runner';
 		var client = redis.createClient();
 		limitlessOnleaveAutooff.changeSetName(redisSetName);
+		limitlessOnleaveAutooff.setClient(client);
 
 		afterEach(function(done){
 			client.del(redisSetName, done);

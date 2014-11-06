@@ -2,12 +2,20 @@ var led = require('limitless-gem');
 var redis = require('redis');
 var format = require('util').format;
 var setName = 'ifttn-limitless-clients';
+var client = null;
 
 module.exports = {
+  setClient: function(redisClient) {
+    client = redisClient;
+  },
   changeSetName: function(newName) {
     setName = newName;
   },
   run: function (params, log, callback) {
+
+    if(client === null) {
+      redis.createClient();
+    }
 
     // Connect to our MiLight WIFI Gateway
     // TODO move to seperate module
@@ -56,14 +64,22 @@ module.exports = {
 };
 
 var registerClient = function(clientname, callback, log) {
+
+  if(client === null) {
+    redis.createClient();
+  }
+
   // Add client to redis store
-  var client = redis.createClient();
   log.info('Registered %s as being home', clientname);
   client.sadd(setName, clientname, function(){callback()});
 }
 
 var deregisterClient = function(clientname, callback, log) {
-  var client = redis.createClient();
+
+  if(client === null) {
+    redis.createClient();
+  }
+  
   // Remove client from store
   client.srem(setName, clientname, function(err, reply) {
     // Now check if there are some clients left
