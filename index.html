@@ -1,35 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <title>If-this-then-node by sebauer</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>If-this-then-node by sebauer</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
+    <div class="wrapper">
+      <header>
         <h1>If-this-then-node</h1>
-        <h2>An extendible NodeJS app to receive actions from IFTTT (If This Then That).</h2>
-        <a href="https://github.com/sebauer/if-this-then-node" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+        <p>An extendible NodeJS app to receive actions from IFTTT (If This Then That).</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
-<a name="ifttn---if-this-then-node" class="anchor" href="#ifttn---if-this-then-node"><span class="octicon octicon-link"></span></a>IFTTN - If This Then Node</h1>
+        <p class="view"><a href="https://github.com/sebauer/if-this-then-node">View the Project on GitHub <small>sebauer/if-this-then-node</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/sebauer/if-this-then-node/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/sebauer/if-this-then-node/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/sebauer/if-this-then-node">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="ifttn---if-this-then-node" class="anchor" href="#ifttn---if-this-then-node" aria-hidden="true"><span class="octicon octicon-link"></span></a>IFTTN - If This Then Node</h1>
+
+<p><a href="https://travis-ci.org/sebauer/if-this-then-node"><img src="https://travis-ci.org/sebauer/if-this-then-node.svg?branch=master" alt="Build Status"></a></p>
 
 <p>IFTTN is a NodeJS based server which allows you to receive actions from <a href="http://www.ifttt.com">IFTTT</a>. It can be used to run on a Raspberry PI in your local network to use IFTTT for further home automation and other tasks.</p>
 
@@ -38,7 +40,7 @@
 <p>IFTTN basically does nothing different: it fakes a WordPress XML RPC API. Using plugin you're able to implement your own custom actions.</p>
 
 <h1>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
 
 <p>git clone IFTTN to wherever you want and run <a href="https://www.npmjs.org/">NMP</a> afterwards to install all dependencies:</p>
 
@@ -48,11 +50,10 @@ nmp install
 
 <p>The next step is to set your custom authentication details in <code>config.js</code>. You need to use the credentials in the IFTTT WordPress channel.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'user'</span><span class="o">:</span> <span class="s1">'myuser'</span><span class="p">,</span>       <span class="c1">// Set your username here</span>
+<div class="highlight highlight-javascript"><pre><span class="k">var</span> config <span class="o">=</span> {
+    <span class="s1">'user'</span><span class="o">:</span> <span class="s1">'myuser'</span>,       <span class="c1">// Set your username here</span>
     <span class="s1">'pw'</span>    <span class="o">:</span> <span class="s1">'mypw'</span>            <span class="c1">// Set your password here</span>
-<span class="p">}</span>
-</pre></div>
+}</pre></div>
 
 <p>IFTTN uses <a href="https://www.npmjs.org/package/bunyan">bunyan</a> for log-output. To have an easy readable output on your console, log output should be redirected to bunyan. If you don't have bunyan installed globally but (automatically) installed as dependency run the following command:</p>
 
@@ -68,13 +69,15 @@ nmp install
 <ul>
 <li>Body</li>
 <li>Categories</li>
-</ul><h2>
-<a name="body" class="anchor" href="#body"><span class="octicon octicon-link"></span></a>Body</h2>
+</ul>
+
+<h2>
+<a id="body" class="anchor" href="#body" aria-hidden="true"><span class="octicon octicon-link"></span></a>Body</h2>
 
 <p>The Body field is used to tell the IFTTN server which plugin should be called. A list of available plugins can be seen during the startup of IFTTN. Just use that name as the post body.</p>
 
 <h2>
-<a name="categories" class="anchor" href="#categories"><span class="octicon octicon-link"></span></a>Categories</h2>
+<a id="categories" class="anchor" href="#categories" aria-hidden="true"><span class="octicon octicon-link"></span></a>Categories</h2>
 
 <p>The categories are used for submitting parameters to the plugin. For example the Wake On Lan plugin uses 2 parameters, a broadcast address and a MAC address. Parameters (or categories) will be written as comma separated lists. The parameter itself as a key/value pair. For the WOL plugin this would look like:</p>
 
@@ -88,43 +91,40 @@ nmp install
 <p>Now the action should be all set up and you're able to trigger it.</p>
 
 <h1>
-<a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Plugins</h1>
+<a id="plugins" class="anchor" href="#plugins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plugins</h1>
 
 <p>Plugins are used for implementing new commands or actions into IFTTN.</p>
 
 <h2>
-<a name="writing-plugins" class="anchor" href="#writing-plugins"><span class="octicon octicon-link"></span></a>Writing Plugins</h2>
+<a id="writing-plugins" class="anchor" href="#writing-plugins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Writing Plugins</h2>
 
 <p>Just have a look at the <a href="https://github.com/sebauer/if-this-then-node/blob/master/plugins/sample-plugin.js">sample plugin</a> inside the plugins-directory, it should be pretty self-explaining. The most important thing is that EVERY plugin must at least implement the functions info() and run(params, log, callback).</p>
 
 <p>The "params" variable holds all parameters from IFTTT as an object. Using the example of our WOL-plugin this object would look like:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="p">{</span>
-    <span class="s1">'broadcast'</span><span class="o">:</span> <span class="s1">'192.168.1.255'</span><span class="p">,</span>
+<div class="highlight highlight-javascript"><pre>{
+    <span class="s1">'broadcast'</span><span class="o">:</span> <span class="s1">'192.168.1.255'</span>,
     <span class="s1">'mac'</span><span class="o">:</span> <span class="s1">'00:00:00:00:00:00'</span>
-<span class="p">}</span>
-</pre></div>
+}</pre></div>
 
 <p>The log parameter is a reference to the instance of the logger (bunyan) which allows you to log custom messages:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="nx">log</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'Foo %s'</span><span class="p">,</span> <span class="nx">bar</span><span class="p">);</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>log<span class="nf">.info</span>(<span class="s1">'Foo %s'</span>, bar);</pre></div>
 
 <p>The callback parameter holds the callback function executed from IFTTN. It expects an result object as parameter:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="p">{</span>
-    <span class="s1">'success'</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<div class="highlight highlight-javascript"><pre>{
+    <span class="s1">'success'</span><span class="o">:</span> <span class="kc">true</span>,
     <span class="s1">'output'</span><span class="o">:</span> <span class="s1">'your output text here'</span>
-<span class="p">}</span>
-</pre></div>
+}</pre></div>
 
 <p>Please note, that you MUST call the callback in your plugin as IFTTN would cannot send a response back to IFTTT. This would make IFTTT wait for a response until a timeout is reached and might result in your recipe being disabled after several failures.</p>
 
 <h2>
-<a name="available-plugins" class="anchor" href="#available-plugins"><span class="octicon octicon-link"></span></a>Available plugins</h2>
+<a id="available-plugins" class="anchor" href="#available-plugins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available plugins</h2>
 
 <h3>
-<a name="wakeonlan-linux---wake-on-lan-from-linux-systems" class="anchor" href="#wakeonlan-linux---wake-on-lan-from-linux-systems"><span class="octicon octicon-link"></span></a>wakeonlan-linux - Wake On Lan (from Linux systems)</h3>
+<a id="wakeonlan-linux---wake-on-lan-from-linux-systems" class="anchor" href="#wakeonlan-linux---wake-on-lan-from-linux-systems" aria-hidden="true"><span class="octicon octicon-link"></span></a>wakeonlan-linux - Wake On Lan (from Linux systems)</h3>
 
 <p>This plugin can be used to wake up a PC which supports Wake On Lan. This plugin depends on "wakeonlan". You might also use etherwake, but that needs to be implemented, yet. The following parameters need to be set in your action-configuration in IFTTT:</p>
 
@@ -133,8 +133,10 @@ nmp install
 <strong>broadcast</strong> - The broadcast address of the system you're trying to wake up. If it has the local IP 192.168.1.1 the broadcast address usually is 192.168.1.255</li>
 <li>
 <strong>mac</strong> - The MAC address of the interface which is beeing accessed written as 00:00:00:00:00:00</li>
-</ul><h3>
-<a name="windows-shutdown-linux---shutdown-windows-from-linux" class="anchor" href="#windows-shutdown-linux---shutdown-windows-from-linux"><span class="octicon octicon-link"></span></a>windows-shutdown-linux - Shutdown Windows from Linux</h3>
+</ul>
+
+<h3>
+<a id="windows-shutdown-linux---shutdown-windows-from-linux" class="anchor" href="#windows-shutdown-linux---shutdown-windows-from-linux" aria-hidden="true"><span class="octicon octicon-link"></span></a>windows-shutdown-linux - Shutdown Windows from Linux</h3>
 
 <p>Does exactly what it says it does. It shuts down a Windows PC from a Linux system. It requires a local user profile with administrative privileges on the Windows system and the <code>samba-common</code> package to be installed on the Linux system executing the command. On some systems you might need to first uninstall samba-common first and reinstall it before the net-command is available. Run:</p>
 
@@ -151,15 +153,17 @@ sudo apt-get install samba-common
 <strong>user</strong> - The username of the administrative user on the target system</li>
 <li>
 <strong>pw</strong> - The password of the administrative user on the target system</li>
-</ul><h3>
-<a name="limitlessled" class="anchor" href="#limitlessled"><span class="octicon octicon-link"></span></a>LimitlessLED</h3>
+</ul>
+
+<h3>
+<a id="limitlessled" class="anchor" href="#limitlessled" aria-hidden="true"><span class="octicon octicon-link"></span></a>LimitlessLED</h3>
 
 <p>The "LimitlessLED" plugins can be used to control any LimitlessLED (also known as "MiLight" or "IWY Light" system using IFTTT.</p>
 
 <p>More information can be found <a href="http://www.wifiledlamp.com/service/applamp-api/">here</a>, <a href="http://www.limitlessled.com/dev/">here</a> and <a href="http://www.msxfaq.de/lync/impresence/iwylight.htm">here</a>.</p>
 
 <h4>
-<a name="limitless-zone-onoff" class="anchor" href="#limitless-zone-onoff"><span class="octicon octicon-link"></span></a>limitless-zone-onoff</h4>
+<a id="limitless-zone-onoff" class="anchor" href="#limitless-zone-onoff" aria-hidden="true"><span class="octicon octicon-link"></span></a>limitless-zone-onoff</h4>
 
 <p>An easy plugin for remotely turning on or off the lights of a specified zone.</p>
 
@@ -174,8 +178,10 @@ sudo apt-get install samba-common
 <strong>zone</strong> - The number of the zone you wish to control. Numbers 1-4 usually.</li>
 <li>
 <strong>onoff</strong> - Whether to turn your zone on or off. Values: on, off</li>
-</ul><h4>
-<a name="limitless-onleave-autooff" class="anchor" href="#limitless-onleave-autooff"><span class="octicon octicon-link"></span></a>limitless-onleave-autooff</h4>
+</ul>
+
+<h4>
+<a id="limitless-onleave-autooff" class="anchor" href="#limitless-onleave-autooff" aria-hidden="true"><span class="octicon octicon-link"></span></a>limitless-onleave-autooff</h4>
 
 <p>This plugin turns off your lights if all known clients have left. You can use this plugin together with IFTTT's geofencing features. Please note: if you are living with multiple people, each of them might need to have IFTTT running on their mobile phones and have this recipe set up and running. This is due to the fact, that the plugin needs to run a list of "accepted" clients in order to know when the last person has left and the lights can finally be turned off.</p>
 
@@ -196,25 +202,13 @@ sudo apt-get install samba-common
 <li>
 <strong>onoff</strong> - {{EnteredOrExited}} - IFTTT's ingredient to tell whether someone has entered or exited the geofence</li>
 </ul>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/sebauer/if-this-then-node/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/sebauer/if-this-then-node/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/sebauer/if-this-then-node"></a> is maintained by <a href="https://github.com/sebauer">sebauer</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/sebauer">sebauer</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-
-  
+    <script src="javascripts/scale.fix.js"></script>
+    
   </body>
 </html>
