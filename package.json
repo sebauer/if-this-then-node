@@ -12,7 +12,8 @@
     "redis": "0.11.x"
   },
   "devDependencies": {
-    "mocha" : "x.x.x"
+    "mocha" : "x.x.x",
+    "redis-mock": "x.x.x"
   },
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha ./test/test.js"
