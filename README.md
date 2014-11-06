@@ -1,4 +1,4 @@
-IFTTN - If This Then Node
+IFTTN - If This Then Node [![Build Status](https://travis-ci.org/sebauer/if-this-then-node.svg?branch=master)](https://travis-ci.org/sebauer/if-this-then-node)
 =================
 
 IFTTN is a NodeJS based server which allows you to receive actions from [IFTTT](http://www.ifttt.com). It can be used to run on a Raspberry PI in your local network to use IFTTT for further home automation and other tasks.
