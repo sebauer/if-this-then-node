@@ -50,9 +50,9 @@ nmp install
 
 <p>The next step is to set your custom authentication details in <code>config.js</code>. You need to use the credentials in the IFTTT WordPress channel.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="k">var</span> config <span class="o">=</span> {
-    <span class="s1">'user'</span><span class="o">:</span> <span class="s1">'myuser'</span>,       <span class="c1">// Set your username here</span>
-    <span class="s1">'pw'</span>    <span class="o">:</span> <span class="s1">'mypw'</span>            <span class="c1">// Set your password here</span>
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> config <span class="pl-k">=</span> {
+    <span class="pl-s1"><span class="pl-pds">'</span>user<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>myuser<span class="pl-pds">'</span></span>,       <span class="pl-c">// Set your username here</span>
+    <span class="pl-s1"><span class="pl-pds">'</span>pw<span class="pl-pds">'</span></span>    <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>mypw<span class="pl-pds">'</span></span>            <span class="pl-c">// Set your password here</span>
 }</pre></div>
 
 <p>IFTTN uses <a href="https://www.npmjs.org/package/bunyan">bunyan</a> for log-output. To have an easy readable output on your console, log output should be redirected to bunyan. If you don't have bunyan installed globally but (automatically) installed as dependency run the following command:</p>
@@ -103,19 +103,19 @@ nmp install
 <p>The "params" variable holds all parameters from IFTTT as an object. Using the example of our WOL-plugin this object would look like:</p>
 
 <div class="highlight highlight-javascript"><pre>{
-    <span class="s1">'broadcast'</span><span class="o">:</span> <span class="s1">'192.168.1.255'</span>,
-    <span class="s1">'mac'</span><span class="o">:</span> <span class="s1">'00:00:00:00:00:00'</span>
+    <span class="pl-s1"><span class="pl-pds">'</span>broadcast<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>192.168.1.255<span class="pl-pds">'</span></span>,
+    <span class="pl-s1"><span class="pl-pds">'</span>mac<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>00:00:00:00:00:00<span class="pl-pds">'</span></span>
 }</pre></div>
 
 <p>The log parameter is a reference to the instance of the logger (bunyan) which allows you to log custom messages:</p>
 
-<div class="highlight highlight-javascript"><pre>log<span class="nf">.info</span>(<span class="s1">'Foo %s'</span>, bar);</pre></div>
+<div class="highlight highlight-javascript"><pre>log<span class="pl-s3">.info</span>(<span class="pl-s1"><span class="pl-pds">'</span>Foo %s<span class="pl-pds">'</span></span>, bar);</pre></div>
 
 <p>The callback parameter holds the callback function executed from IFTTN. It expects an result object as parameter:</p>
 
 <div class="highlight highlight-javascript"><pre>{
-    <span class="s1">'success'</span><span class="o">:</span> <span class="kc">true</span>,
-    <span class="s1">'output'</span><span class="o">:</span> <span class="s1">'your output text here'</span>
+    <span class="pl-s1"><span class="pl-pds">'</span>success<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    <span class="pl-s1"><span class="pl-pds">'</span>output<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>your output text here<span class="pl-pds">'</span></span>
 }</pre></div>
 
 <p>Please note, that you MUST call the callback in your plugin as IFTTN would cannot send a response back to IFTTT. This would make IFTTT wait for a response until a timeout is reached and might result in your recipe being disabled after several failures.</p>
@@ -209,6 +209,16 @@ sudo apt-get install samba-common
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-56995350-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
