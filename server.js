@@ -39,6 +39,12 @@ pluginManager.loadPlugins();
 xmlRpcApiHandler.setLogger(log);
 xmlRpcApiHandler.setPluginManager(pluginManager);
 
+// Middleware to log every request
+app.use(function (req, res, next) {
+  log.info('%s from %s on %s', req.method, req.ip, req.path);
+  next();
+});
+
 app.post('/xmlrpc.php', function(req, res, next){
   log.info('XMLRPC API request received');
   log.info(req.rawBody);
