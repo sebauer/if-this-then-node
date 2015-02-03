@@ -1,6 +1,6 @@
 var config = {
-	'user': 'hans',
-	'pw'	: 'wurst'
+	'user': 'myuser',
+	'pw'	: 'mypw'
 }
 
 module.exports = {
