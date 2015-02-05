@@ -3,6 +3,9 @@ var pjson = require('../package.json');
 var log = null;
 
 module.exports = {
+    getVersion: function() {
+      return pjson.version;
+    },
     setLogger: function(logger){
         log = logger;
     },

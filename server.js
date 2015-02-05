@@ -45,6 +45,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.get('/xmlrpc.php', function(req, res, next){
+  res.send('<a href="https://github.com/sebauer/if-this-then-node" target="_blank">IFTTN - if-this-then-node</a> Version '+helper.getVersion()+' is up and running!');
+});
+
 app.post('/xmlrpc.php', function(req, res, next){
   log.info('XMLRPC API request received');
   log.info(req.rawBody);
