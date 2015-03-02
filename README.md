@@ -32,6 +32,8 @@ Have a look at the bunyan documentation if you want to further define which log 
 
 In IFTTT configure a new recipe with any trigger you like and WordPress as action channel. Configure the channel with the URL to your instance of IFTTN and the user credentials you set in the config.js previously. By default this application runs on port 1337 and you might have to configure a port redirect in your router to make the instance of NodeJS accessible from the internet.
 
+__IMPORTANT:__ IFTTT expects WordPress always to be running on port 80. So if you have if-this-then-node running, you should configure your port forwardings to map external port 80 to port 1337 on the system where if-this-then-node is running on.
+
 For the WordPress action in IFTTT basically only 2 fields are required by this plugin, all other fields can be set to anything you whish:
  * Body
  * Categories
