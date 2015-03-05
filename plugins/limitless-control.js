@@ -1,4 +1,5 @@
 var led = require('limitless-gem');
+var sleep = require('sleep');
 
 module.exports = {
     run: function (params, log, callback) {
@@ -18,7 +19,13 @@ module.exports = {
             break;
           case("COLOR"):
             var cmd = switchLED(connection, params.zone, 'ON');
-            var cmd = switchCOLOR(connection, params.color);
+            cmd = switchCOLOR(connection, params.color);
+            break;
+          case("COLOR_WHITE"):
+            var cmd = switchLED(connection, params.zone, 'ON');
+            cmd = switchCOLOR(connection, params.color);
+            //sleep.sleep(5);
+            cmd = switchWHITE(connection, params.zone);
             break;
         }
         callback({
@@ -27,9 +34,15 @@ module.exports = {
         });
     },
     info: function() {
-        return 'IFTTN LimitlessLED Plugin - Zone x On/Off';
+        return 'IFTTN LimitlessLED Plugin - Control';
     }
 };
+
+var switchWHITE = function(connection, zone) {
+    var cmd = led.RGBW['GROUP'+zone+'_SET_TO_WHITE'];
+    connection.send(cmd);
+    return cmd;
+}
 
 var switchCOLOR = function(connection, color) {
     var cmd = ''
