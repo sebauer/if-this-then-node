@@ -25,7 +25,7 @@ module.exports = {
             var cmd = switchLED(connection, params.zone, 'ON');
             var cmd = switchCOLOR(connection, params.color);
             //sleep.sleep(5);
-            var cmd = switchWHITE(connection, params.zone);
+            //var cmd = switchWHITE(connection, params.zone);
             break;
         }
         callback({
