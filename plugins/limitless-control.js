@@ -19,13 +19,13 @@ module.exports = {
             break;
           case("COLOR"):
             var cmd = switchLED(connection, params.zone, 'ON');
-            cmd = switchCOLOR(connection, params.color);
+            var cmd = switchCOLOR(connection, params.color);
             break;
           case("COLOR_WHITE"):
             var cmd = switchLED(connection, params.zone, 'ON');
-            cmd = switchCOLOR(connection, params.color);
+            var cmd = switchCOLOR(connection, params.color);
             //sleep.sleep(5);
-            cmd = switchWHITE(connection, params.zone);
+            var cmd = switchWHITE(connection, params.zone);
             break;
         }
         callback({
