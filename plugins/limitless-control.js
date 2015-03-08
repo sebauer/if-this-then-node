@@ -1,5 +1,8 @@
-var led = require('limitless-gem');
+var Promise = require('bluebird');
+var led = Promise.promisifyAll(require('limitless-gem'));
 var sleep = require('sleep');
+var await = require('asyncawait/await');
+var async = require('asyncawait/async');
 
 module.exports = {
     run: function (params, log, callback) {
@@ -22,10 +25,7 @@ module.exports = {
             var cmd = switchCOLOR(connection, params.color);
             break;
           case("COLOR_WHITE"):
-            var cmd = switchLED(connection, params.zone, 'ON');
-            var cmd = switchCOLOR(connection, params.color);
-            //sleep.sleep(5);
-            //var cmd = switchWHITE(connection, params.zone);
+            var cmd = colorwhite(connection, params);
             break;
         }
         callback({
@@ -38,13 +38,20 @@ module.exports = {
     }
 };
 
+var colorwhite = async (function(connection, params) {
+    var cmd = await(switchCOLOR(connection, params.color));
+    await(sleep.sleep(parseInt(params.delay)));
+    await(sleep.sleep(parseInt(params.delay)));
+    var cmd = await(switchWHITE(connection, params.zone));
+});
+
 var switchWHITE = function(connection, zone) {
     var cmd = led.RGBW['GROUP'+zone+'_SET_TO_WHITE'];
     connection.send(cmd);
     return cmd;
-}
+};
 
-var switchCOLOR = function(connection, color) {
+var switchCOLOR = async (function(connection, color) {
     var cmd = ''
     switch(color.toUpperCase()) {
       case 'AQUA':
@@ -68,9 +75,9 @@ var switchCOLOR = function(connection, color) {
       default:
           log.warn('Error with command, input %s invalid', color);
     }
-    connection.send(cmd)
+    connection.send(cmd);
     return cmd;
-}
+});
 
 var switchLED = function(connection, zone, onoff) {
     var cmd = '';
