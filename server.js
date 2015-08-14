@@ -45,11 +45,11 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/xmlrpc.php', function(req, res, next){
-  res.send('<a href="https://github.com/sebauer/if-this-then-node" target="_blank">IFTTN - if-this-then-node</a> Version '+helper.getVersion()+' is up and running!');
+app.get('/xmlrpc.php', function (req, res, next){
+  res.send('<a href="https://github.com/sebauer/if-this-then-node" target="_blank">IFTTN - if-this-then-node</a> Version ' + helper.getVersion() + ' is up and running!');
 });
 
-app.post('/xmlrpc.php', function(req, res, next){
+app.post('/xmlrpc.php', function (req, res, next){
   log.info('XMLRPC API request received');
   log.info(req.rawBody);
 
@@ -60,6 +60,6 @@ app.post('/xmlrpc.php', function(req, res, next){
   xmlRpcApiHandler.handleMethod(methodName, req, res);
 });
 
-var server = app.listen(1337, function() {
+var server = app.listen(1337, function () {
   log.info('Listening on port %d', server.address().port);
 });
