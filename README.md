@@ -16,8 +16,8 @@ nmp install
 The next step is to set your custom authentication details in `config.js`. You need to use the credentials in the IFTTT WordPress channel.
 ```javascript
 var config = {
-'user': 'myuser',		// Set your username here
-'pw'	: 'mypw'			// Set your password here
+	'user': 'myuser',		// Set your username here
+	'pw'	: 'mypw'			// Set your password here
 }
 ```
 
@@ -59,13 +59,13 @@ This is the most crucial part. You have to send a JSON structure, which contains
 Let's have a look at this sample for the limitless-zone-onoff plugin:
 ```javascript
 {
-"action": "limitless-zone-onoff", // always required
-"user": "myuser", // always required
-"pw": "mypassword",  // always required
-"host": "192.168.178.24",
-"port": "8899",
-"zone": "3",
-"onoff": "on"
+	"action": "limitless-zone-onoff", // always required
+	"user": "myuser", // always required
+	"pw": "mypassword",  // always required
+	"host": "192.168.178.24",
+	"port": "8899",
+	"zone": "3",
+	"onoff": "on"
 }
 ```
 As you can see, there are 3 parameters which are always required. That is the username and password you just configured in your config.js and the "action", which is the name of the plug in, you wish to execute.
@@ -88,11 +88,11 @@ A sample request body would look like this:
 
 ```javascript
 {
-"action": "wakeonlan-linux",
-"user": "myuser",
-"pw": "mypassword",
-"broadcast": "192.168.1.255",
-"mac": "00:00:00:00:00:00"
+	"action": "wakeonlan-linux",
+	"user": "myuser",
+	"pw": "mypassword",
+	"broadcast": "192.168.1.255",
+	"mac": "00:00:00:00:00:00"
 }
 ```
 
