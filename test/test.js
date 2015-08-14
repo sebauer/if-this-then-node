@@ -21,8 +21,6 @@ describe('Limitless LED Plugins', function(){
 		describe('when switching a Zone ON', function(){
 			it('should send the command to switch the specified zone ON', function(done){
 				limitlessZoneOnOff.run({
-					'host': 'foo',
-					'port': '1337',
 					'zone': '1',
 					'onoff': 'on'
 				}, logMock, function(result){
@@ -34,8 +32,6 @@ describe('Limitless LED Plugins', function(){
 		describe('when switching a Zone OFF', function(){
 			it('should send the command to switch the specified zone ON', function(done){
 				limitlessZoneOnOff.run({
-					'host': 'foo',
-					'port': '1337',
 					'zone': '3',
 					'onoff': 'off'
 				}, logMock, function(result){
