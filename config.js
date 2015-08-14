@@ -1,8 +1,8 @@
 var config = {
   'user': 'seb',
   'pw': 'mypw',
-  'host': 'insert-light-gateway-ip',
-  'port': 'insert-light-gateway-port (default 8899)'
+  'host': '', // Put host name or ip address of light gateway
+  'port': '8899' // If necessary change the port of the light gateway. Default is 8899 
 };
 
 module.exports = {
