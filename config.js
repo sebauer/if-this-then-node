@@ -1,5 +1,5 @@
 var config = {
-  'user': 'seb',
+  'user': 'myuser',
   'pw': 'mypw'
 };
 
