@@ -1,5 +1,5 @@
 module.exports = {
-  extractParameters: function(params) {
+  extractParameters: function (params) {
     var returnObj = {};
 
     var user = params.param[1].value[0].string[0];
@@ -12,13 +12,13 @@ module.exports = {
     var actionParams = [];
 
     // Extract the parameters, faked as categories
-    for(var i in categories) {
+    for (var i in categories) {
       var paramString = categories[i].string[0];
 
       // Extract parameters to key/value pairs
       var extractedParams = paramString.match(/^([^\=]+)\=([^\=]+)$/);
 
-      if(extractedParams === null) {
+      if (extractedParams === null) {
         throw new Error('Parameters not valid!');
       }
       // Save extracted parameters
@@ -30,7 +30,7 @@ module.exports = {
       'pw': pw,
       'action': action,
       'actionParams': actionParams
-    }
+    };
     return returnObj;
   }
 };

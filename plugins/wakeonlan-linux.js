@@ -2,10 +2,10 @@ var exec = require('child_process').exec;
 
 module.exports = {
   run: function (params, log, callbackFunction) {
-    var command = 'wakeonlan -i '+params.broadcast+' '+params.mac;
+    var command = 'wakeonlan -i ' + params.broadcast + ' ' + params.mac;
     log.info(command);
-    exec(command, function (error, stdout, stderr){
-      if(error != null) {
+    exec(command, function (error, stdout, stderr) {
+      if (error != null) {
         callbackFunction({
           'success': false,
           'output': error
@@ -18,7 +18,7 @@ module.exports = {
       }
     });
   },
-  info: function() {
+  info: function () {
     return 'IFTTN Wake-On-LAN Plugin (Linux) V0.1';
   }
 };
