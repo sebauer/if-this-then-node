@@ -14,7 +14,7 @@ module.exports = {
   run: function (params, log, callback) {
 
     if (client === null) {
-      redis.createClient();
+      client = redis.createClient();
     }
 
     // Connect to our MiLight WIFI Gateway
@@ -66,7 +66,7 @@ module.exports = {
 var registerClient = function (clientname, callback, log) {
 
   if (client === null) {
-    redis.createClient();
+    client = redis.createClient();
   }
 
   // Add client to redis store
