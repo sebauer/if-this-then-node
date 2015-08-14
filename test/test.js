@@ -5,6 +5,7 @@ var parameterExtractor = require('../modules/parameter-extractor.js');
 var pluginManager = require('../modules/plugin-manager.js');
 var limitlessZoneOnOff = require('../plugins/limitless-zone-onoff');
 var limitlessOnleaveAutooff = require('../plugins/limitless-onleave-autooff');
+var led = require('limitless-gem');
 
 // Lets fake a logger
 var logMock = {
@@ -20,10 +21,12 @@ describe('Limitless LED Plugins', function(){
 		describe('when switching a Zone ON', function(){
 			it('should send the command to switch the specified zone ON', function(done){
 				limitlessZoneOnOff.run({
+					'host': 'foo',
+					'port': '1337',
 					'zone': '1',
 					'onoff': 'on'
 				}, logMock, function(result){
-					assert.equal('Sent command '+0x45, result.output);
+					assert.equal('Sent command '+led.RGBW['GROUP1_ON'], result.output);
 					done();
 				});
 			});
@@ -31,10 +34,12 @@ describe('Limitless LED Plugins', function(){
 		describe('when switching a Zone OFF', function(){
 			it('should send the command to switch the specified zone ON', function(done){
 				limitlessZoneOnOff.run({
+					'host': 'foo',
+					'port': '1337',
 					'zone': '3',
 					'onoff': 'off'
 				}, logMock, function(result){
-					assert.equal('Sent command '+0x4A, result.output);
+					assert.equal('Sent command '+led.RGBW['GROUP3_OFF'], result.output);
 					done();
 				});
 			});
