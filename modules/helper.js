@@ -10,10 +10,6 @@ module.exports = {
     log = logger;
   },
   checkConfig: function () {
-    if (config.host === '') {
-      log.error('No host name or IP address is configured for the light gateway. Please set it in config.js!');
-      process.exit(42);
-    }
     // Validate that the user has set custom authentication details
     if (config.user === 'myuser' || config.pw === 'mypw') {
       log.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');

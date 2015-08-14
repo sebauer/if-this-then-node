@@ -31,7 +31,7 @@ app.use(express.urlencoded());
 app.use(xmlparser());
 
 helper.setLogger(log);
-helper.checkDefaultCredentials();
+helper.checkConfig();
 
 pluginManager.setLogger(log);
 pluginManager.loadPlugins();
@@ -45,19 +45,14 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/xmlrpc.php', function (req, res, next){
+app.get('/ifttn/', function (req, res, next) {
   res.send('<a href="https://github.com/sebauer/if-this-then-node" target="_blank">IFTTN - if-this-then-node</a> Version ' + helper.getVersion() + ' is up and running!');
 });
 
-app.post('/xmlrpc.php', function (req, res, next){
-  log.info('XMLRPC API request received');
-  log.info(req.rawBody);
+app.post('/ifttn/', function (req, res, next) {
+  log.info('Request received');
 
-  var methodName = req.body.methodcall.methodname[0];
-
-  log.info('Method Name: %s', methodName);
-
-  xmlRpcApiHandler.handleMethod(methodName, req, res);
+  xmlRpcApiHandler.handleRequest(req, res);
 });
 
 var server = app.listen(1337, function () {
