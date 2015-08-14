@@ -1,6 +1,8 @@
 var config = {
-  'user': 'myuser',
-  'pw': 'mypw'
+  'user': 'seb',
+  'pw': 'mypw',
+  'host': 'insert-light-gateway-ip',
+  'port': 'insert-light-gateway-port (default 8899)'
 };
 
 module.exports = {
