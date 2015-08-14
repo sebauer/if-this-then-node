@@ -9,7 +9,7 @@ module.exports = {
   setLogger: function (logger) {
     log = logger;
   },
-  checkDefaultCredentials: function () {
+  checkConfig: function () {
     // Validate that the user has set custom authentication details
     if (config.user === 'myuser' || config.pw === 'mypw') {
       log.error('Authentication details are still on their default values! Please set a custom username and password in config.js!');
