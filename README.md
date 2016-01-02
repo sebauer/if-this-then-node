@@ -7,7 +7,7 @@ The new version is based on [IFTTT "Maker"](http://ifttt.com/maker) feature and 
 
 # Setup and Configuration
 
-git clone IFTTN to wherever you want and run [NMP](https://www.npmjs.org/) afterwards to install all dependencies:
+git clone IFTTN to wherever you want and run [NPM](https://www.npmjs.org/) afterwards to install all dependencies:
 ```
 git clone git@github.com:sebauer/if-this-then-node.git
 nmp install
@@ -102,7 +102,7 @@ Does exactly what it says it does. It shuts down a Windows PC from a Linux syste
 sudo apt-get remove samba-common
 sudo apt-get install samba-common
 ```
-The following parameters need to be set in your action-configurtion in IFTTT:
+The following parameters need to be set in your action-configuration in IFTTT:
 * __ip__ - The local IP address of the system
 * __user__ - The username of the administrative user on the target system
 * __pw__ - The password of the administrative user on the target system
