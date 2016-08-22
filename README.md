@@ -10,7 +10,7 @@ The new version is based on [IFTTT "Maker"](http://ifttt.com/maker) feature and 
 git clone IFTTN to wherever you want and run [NPM](https://www.npmjs.org/) afterwards to install all dependencies:
 ```
 git clone git@github.com:sebauer/if-this-then-node.git
-nmp install
+npm install
 ```
 
 The next step is to set your custom authentication details in `config.js`. You need to use the credentials in the IFTTT WordPress channel.
